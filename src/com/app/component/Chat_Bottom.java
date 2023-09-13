@@ -1,20 +1,22 @@
-package com.app.form;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
+package com.app.component;
 
-import net.miginfocom.swing.MigLayout;
+/**
+ *
+ * @author admin
+ */
+public class Chat_Bottom extends javax.swing.JPanel {
 
-
-public class Home extends javax.swing.JLayeredPane {
-    public Home() {
+    /**
+     * Creates new form Chat_Title
+     */
+    public Chat_Bottom() {
         initComponents();
-        init();
     }
-    
-    private void init(){
-        setLayout(new MigLayout(" fillx, filly","0[200!]5[fill, 100%]5[180!]0","0[fill]0"));
-        this.add(new Menu_left());
-        this.add(new Chat());
-        this.add(new Menu_right());
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,11 +30,11 @@ public class Home extends javax.swing.JLayeredPane {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 871, Short.MAX_VALUE)
+            .addGap(0, 347, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 393, Short.MAX_VALUE)
+            .addGap(0, 40, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -28,7 +28,7 @@ public class Main extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/com/app/icon/icons.png")).getImage());
         ComponentResizer com = new ComponentResizer();
         com.registerComponent(this);
-        com.setMinimumSize(new Dimension(700, 400));
+        com.setMinimumSize(new Dimension(800, 500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         com.setSnapSize(new Dimension(10,10));
     }
@@ -41,22 +41,22 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        border = new javax.swing.JPanel();
+        boder = new javax.swing.JPanel();
         background = new javax.swing.JPanel();
         title = new javax.swing.JPanel();
-        cmdMinimeze = new javax.swing.JButton();
+        cmdMinimize = new javax.swing.JButton();
         cmdClose = new javax.swing.JButton();
         body = new javax.swing.JLayeredPane();
-        home2 = new com.app.form.Home();
+        home1 = new com.app.form.Home();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        border.setBackground(new java.awt.Color(229, 229, 229));
-        border.setForeground(new java.awt.Color(0, 0, 0));
+        boder.setBackground(new java.awt.Color(255, 255, 255));
+        boder.setForeground(new java.awt.Color(0, 0, 0));
 
         background.setBackground(new java.awt.Color(255, 255, 255));
-        background.setForeground(new java.awt.Color(0, 0, 0));
+        background.setForeground(new java.awt.Color(255, 255, 255));
 
         title.setBackground(new java.awt.Color(229, 229, 229));
         title.setForeground(new java.awt.Color(0, 0, 0));
@@ -71,20 +71,16 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        cmdMinimeze.setBackground(new java.awt.Color(229, 229, 229));
-        cmdMinimeze.setForeground(new java.awt.Color(0, 0, 0));
-        cmdMinimeze.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/minimize-15.png"))); // NOI18N
-        cmdMinimeze.setBorder(null);
-        cmdMinimeze.setContentAreaFilled(false);
-        cmdMinimeze.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cmdMinimeze.addActionListener(new java.awt.event.ActionListener() {
+        cmdMinimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/minimize-15.png"))); // NOI18N
+        cmdMinimize.setBorder(null);
+        cmdMinimize.setContentAreaFilled(false);
+        cmdMinimize.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmdMinimize.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdMinimezeActionPerformed(evt);
+                cmdMinimizeActionPerformed(evt);
             }
         });
 
-        cmdClose.setBackground(new java.awt.Color(229, 229, 229));
-        cmdClose.setForeground(new java.awt.Color(0, 0, 0));
         cmdClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/close-window-15.png"))); // NOI18N
         cmdClose.setBorder(null);
         cmdClose.setContentAreaFilled(false);
@@ -100,73 +96,77 @@ public class Main extends javax.swing.JFrame {
         titleLayout.setHorizontalGroup(
             titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titleLayout.createSequentialGroup()
-                .addGap(940, 940, 940)
-                .addComponent(cmdMinimeze, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(cmdClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addContainerGap(873, Short.MAX_VALUE)
+                .addComponent(cmdMinimize, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(cmdClose, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         titleLayout.setVerticalGroup(
             titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(cmdMinimeze, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-            .addComponent(cmdClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(titleLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(cmdMinimize, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                    .addComponent(cmdClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
 
         body.setLayout(new java.awt.BorderLayout());
+        body.add(home1, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(backgroundLayout.createSequentialGroup()
-                .addGap(788, 788, 788)
-                .addComponent(body))
-            .addGroup(backgroundLayout.createSequentialGroup()
-                .addComponent(home2, javax.swing.GroupLayout.PREFERRED_SIZE, 1005, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(body, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(home2, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
-                .addComponent(body, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout borderLayout = new javax.swing.GroupLayout(border);
-        border.setLayout(borderLayout);
-        borderLayout.setHorizontalGroup(
-            borderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(borderLayout.createSequentialGroup()
-                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+        javax.swing.GroupLayout boderLayout = new javax.swing.GroupLayout(boder);
+        boder.setLayout(boderLayout);
+        boderLayout.setHorizontalGroup(
+            boderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(boderLayout.createSequentialGroup()
+                .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
-        borderLayout.setVerticalGroup(
-            borderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(borderLayout.createSequentialGroup()
-                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+        boderLayout.setVerticalGroup(
+            boderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(boderLayout.createSequentialGroup()
+                .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(border, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(boder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(border, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(boder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    int pX, pY;
+
+    private int pX, pY;
     private void titleMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titleMouseDragged
         this.setLocation(this.getLocation().x + evt.getX() - pX,this.getLocation().y + evt.getY() - pY);
     }//GEN-LAST:event_titleMouseDragged
@@ -176,13 +176,15 @@ public class Main extends javax.swing.JFrame {
         pY = evt.getY();
     }//GEN-LAST:event_titleMousePressed
 
-    private void cmdMinimezeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMinimezeActionPerformed
-       this.setState(JFrame.ICONIFIED);
-    }//GEN-LAST:event_cmdMinimezeActionPerformed
+    private void cmdMinimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMinimizeActionPerformed
+        this.setState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_cmdMinimizeActionPerformed
 
     private void cmdCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCloseActionPerformed
         System.exit(0);
     }//GEN-LAST:event_cmdCloseActionPerformed
+                                
+                                         
 
     /**
      * @param args the command line arguments
@@ -223,11 +225,11 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
+    private javax.swing.JPanel boder;
     private javax.swing.JLayeredPane body;
-    private javax.swing.JPanel border;
     private javax.swing.JButton cmdClose;
-    private javax.swing.JButton cmdMinimeze;
-    private com.app.form.Home home2;
+    private javax.swing.JButton cmdMinimize;
+    private com.app.form.Home home1;
     private javax.swing.JPanel title;
     // End of variables declaration//GEN-END:variables
 }
