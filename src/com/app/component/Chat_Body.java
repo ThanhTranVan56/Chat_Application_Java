@@ -2,6 +2,8 @@ package com.app.component;
 
 import com.app.swing.ScrollBar;
 import java.awt.Color;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
 import net.miginfocom.swing.MigLayout;
 
@@ -12,21 +14,19 @@ public class Chat_Body extends javax.swing.JPanel {
     public Chat_Body() {
         initComponents();
         init();
-        addItemLeft("That's so weird. Right now I'm running on Ubuntu with Java 1.7, but I get the same problem when I run it on Windows 7 with Java 1.7. Do you have any idea why they would be different?");
+        addItemLeft("That's so weird. Right now I'm running on Ubuntu with Java 1.7, but I get the same problem when I run it on Windows 7 with Java 1.7. Do you have any idea why they would be different?","Thanh");
         
         addItemRight("That's so weird. Right now I'm running on Ubuntu with Java 1.7, but I get the same problem when I run it on Windows 7 with Java 1.7. Do you have any idea why they would be different?");
-        addItemLeft("Hello \naaaaa \nbbbbb");
+        addDate("12/09/2023");
+        
+        addItemLeft("Hello \naaaaa \nbbbbb", "Tran");
         addItemRight("\naaaaa \nbbbbb");
-        addItemLeft("Hello \naaaaa \nbbbbb");
-        addItemRight("\naaaaa \nbbbbb");
-        addItemLeft("Hello \naaaaa \nbbbbb");
-        addItemRight("\naaaaa \nbbbbb");
-        addItemLeft("Hello \naaaaa \nbbbbb");
-        addItemRight("\naaaaa \nbbbbb");
-        addItemLeft("Hello \naaaaa \nbbbbb");
-        addItemRight("\naaaaa \nbbbbb");
-        addItemLeft("Hello \naaaaa \nbbbbb");
-        addItemRight("\naaaaa \nbbbbb");
+        addItemLeft("Hello \naaaaa \nbbbbb","Van");
+        
+        addDate("Today");
+        addItemLeft("Hello \naaaaa \nbbbbb", "Tr", new ImageIcon(getClass().getResource("/com/app/icon/testing/test-2.jpg")),new ImageIcon(getClass().getResource("/com/app/icon/testing/test-1.jpg"))); 
+        addItemLeft("","Tr",new ImageIcon(getClass().getResource("/com/app/icon/testing/test-2.jpg")));
+        addItemRight("\naaaaa \nbbbbb",new ImageIcon(getClass().getResource("/com/app/icon/testing/test-2.jpg")));
     }
     
     private void init(){
@@ -35,17 +35,31 @@ public class Chat_Body extends javax.swing.JPanel {
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
     
-    public void addItemLeft(String text){
-        Chat_Left item = new Chat_Left();
+    public void addItemLeft(String text, String user, Icon ...image){
+        Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+        //Chat_Left item = new Chat_Left();
+        item.setUserProfile(user);
+        item.setImage(image);
+        item.setTime();
         item.setText(text);
-        body.add(item, "wrap, w ::80%");
+        body.add(item, "wrap, w 100::80%");
         body.repaint();
         body.revalidate();
     }
-    public void addItemRight(String text){
+    
+    public void addItemRight(String text,Icon ...image){
         Chat_Right item = new Chat_Right();
         item.setText(text);
-        body.add(item, "wrap,al right, w ::80%");
+        item.setImage(image);
+        body.add(item, "wrap,al right, w 100::80%");
+        body.repaint();
+        body.revalidate();
+    }
+    
+    public void addDate(String date){
+        Chat_Date item = new Chat_Date();
+        item.setDate(date);
+        body.add(item,"wrap, al center");
         body.repaint();
         body.revalidate();
     }

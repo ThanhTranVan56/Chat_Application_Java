@@ -74,7 +74,7 @@
               <Image iconType="3" name="/com/app/icon/menu-message-40-selected.png"/>
             </Property>
             <Property name="iconSimple" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/app/icon/menu-message-30.png"/>
+              <Image iconType="3" name="/com/app/icon/icons8-message-40.png"/>
             </Property>
             <Property name="selected" type="boolean" value="true"/>
           </Properties>
@@ -91,13 +91,13 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/app/icon/menu-group-30.png"/>
+              <Image iconType="3" name="/com/app/icon/icons8-group-40.png"/>
             </Property>
             <Property name="iconSelected" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/com/app/icon/menu-group-40-selected.png"/>
             </Property>
             <Property name="iconSimple" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/app/icon/menu-group-30.png"/>
+              <Image iconType="3" name="/com/app/icon/icons8-group-40.png"/>
             </Property>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
           </Properties>
@@ -114,13 +114,13 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/app/icon/menu-box-30.png"/>
+              <Image iconType="3" name="/com/app/icon/icons8-box-40 (1).png"/>
             </Property>
             <Property name="iconSelected" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/app/icon/menu-box-40-selected.png"/>
+              <Image iconType="3" name="/com/app/icon/icons8-box-40 (2).png"/>
             </Property>
             <Property name="iconSimple" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/app/icon/menu-box-30.png"/>
+              <Image iconType="3" name="/com/app/icon/icons8-box-40 (1).png"/>
             </Property>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
           </Properties>

@@ -4,11 +4,12 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+public class Item_Peoples extends javax.swing.JPanel {
+    public Item_Peoples() {
+        initComponents();
+    }
 
-public class Item_People extends javax.swing.JPanel {
-
-    
-    public Item_People(String name) {
+   public Item_Peoples(String name) {
         initComponents();
         lb.setText(name);
         init();
@@ -33,11 +34,12 @@ public class Item_People extends javax.swing.JPanel {
         lb = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(242, 242, 242));
+        setForeground(new java.awt.Color(242, 242, 242));
 
-        imageAvatar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/icons8-test-account-45.png"))); // NOI18N
+        imageAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/icons8-test-account-45.png"))); // NOI18N
+        imageAvatar1.setMaximumSize(new java.awt.Dimension(35, 35));
+        imageAvatar1.setMinimumSize(new java.awt.Dimension(35, 35));
 
-        lb.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lb.setForeground(new java.awt.Color(0, 0, 0));
         lb.setText("Name");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -45,17 +47,17 @@ public class Item_People extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lb, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addComponent(lb, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                .addGap(106, 106, 106))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(lb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lb))
         );
     }// </editor-fold>//GEN-END:initComponents
 

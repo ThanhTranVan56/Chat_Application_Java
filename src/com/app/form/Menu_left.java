@@ -1,6 +1,6 @@
 package com.app.form;
 
-import com.app.component.Item_People;
+import com.app.component.Item_Peoples;
 import com.app.swing.ScrollBar;
 import net.miginfocom.swing.MigLayout;
 
@@ -20,21 +20,21 @@ public class Menu_left extends javax.swing.JPanel {
     private void showMessage(){
         menuList.removeAll();
         for(int i=0;i<20;i++){
-            menuList.add(new Item_People("People "+ i), "wrap");
+            menuList.add(new Item_Peoples("People "+ i), "wrap");
         }
         refreshMenuList();
     }
     private void showGroup(){
         menuList.removeAll();
         for(int i=0;i<5;i++){
-            menuList.add(new Item_People("Group "+ i), "wrap");
+            menuList.add(new Item_Peoples("Group "+ i), "wrap");
         }
         refreshMenuList();
     }
     private void showBox(){
         menuList.removeAll();
         for(int i=0;i<10;i++){
-            menuList.add(new Item_People("Box "+ i), "wrap");
+            menuList.add(new Item_Peoples("Box "+ i), "wrap");
         }
         refreshMenuList();
     }
@@ -64,8 +64,9 @@ public class Menu_left extends javax.swing.JPanel {
         menuMessage.setBackground(new java.awt.Color(242, 242, 242));
         menuMessage.setBorder(null);
         menuMessage.setForeground(new java.awt.Color(0, 0, 0));
+        menuMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/menu-message-40-selected.png"))); // NOI18N
         menuMessage.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/menu-message-40-selected.png"))); // NOI18N
-        menuMessage.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/menu-message-30.png"))); // NOI18N
+        menuMessage.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/icons8-message-40.png"))); // NOI18N
         menuMessage.setSelected(true);
         menuMessage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,9 +77,12 @@ public class Menu_left extends javax.swing.JPanel {
 
         menuGroup.setBorder(null);
         menuGroup.setForeground(new java.awt.Color(0, 0, 0));
-        menuGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/menu-group-30.png"))); // NOI18N
+        menuGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/icons8-group-40.png"))); // NOI18N
         menuGroup.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/menu-group-40-selected.png"))); // NOI18N
-        menuGroup.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/menu-group-30.png"))); // NOI18N
+        menuGroup.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/icons8-group-40.png"))); // NOI18N
+        menuGroup.setMaximumSize(new java.awt.Dimension(40, 40));
+        menuGroup.setMinimumSize(new java.awt.Dimension(40, 40));
+        menuGroup.setPreferredSize(new java.awt.Dimension(40, 40));
         menuGroup.setRequestFocusEnabled(false);
         menuGroup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,9 +93,12 @@ public class Menu_left extends javax.swing.JPanel {
 
         menuBox.setBorder(null);
         menuBox.setForeground(new java.awt.Color(0, 0, 0));
-        menuBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/menu-box-30.png"))); // NOI18N
-        menuBox.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/menu-box-40-selected.png"))); // NOI18N
-        menuBox.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/menu-box-30.png"))); // NOI18N
+        menuBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/icons8-box-40 (1).png"))); // NOI18N
+        menuBox.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/icons8-box-40 (2).png"))); // NOI18N
+        menuBox.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/icons8-box-40 (1).png"))); // NOI18N
+        menuBox.setMaximumSize(new java.awt.Dimension(40, 40));
+        menuBox.setMinimumSize(new java.awt.Dimension(40, 40));
+        menuBox.setPreferredSize(new java.awt.Dimension(40, 40));
         menuBox.setRequestFocusEnabled(false);
         menuBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

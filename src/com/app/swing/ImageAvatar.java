@@ -3,6 +3,7 @@ package com.app.swing;
 
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -18,28 +19,31 @@ import javax.swing.JComponent;
 
 public class ImageAvatar extends JComponent {
 
-    public Icon getIcon() {
-        return icon;
+    public Icon getImage() {
+        return image;
     }
 
-    public void setIcon(Icon icon) {
-        this.icon = icon;
+    public void setImage(Icon image) {
+        this.image = image;
     }
 
     public int getBorderSize() {
         return borderSize;
     }
-
+    public Color getBorderColor(){
+        return borderColor;
+    }
     public void setBorderSize(int borderSize) {
         this.borderSize = borderSize;
     }
 
-    private Icon icon;
+    private Icon image;
     private int borderSize;
+    private Color borderColor = new Color(60,60,60);
 
     @Override
     protected void paintComponent(Graphics grphcs) {
-        if (icon != null) {
+        if (image != null) {
             int width = getWidth();
             int height = getHeight();
             int diameter = Math.min(width, height);
@@ -47,7 +51,7 @@ public class ImageAvatar extends JComponent {
             int y = height / 2 - diameter / 2;
             int border = borderSize * 2;
             diameter -= border;
-            Rectangle size = getAutoSize(icon, diameter);
+            Rectangle size = getAutoSize(image, diameter);
             BufferedImage img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2_img = img.createGraphics();
             g2_img.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -55,7 +59,7 @@ public class ImageAvatar extends JComponent {
             Composite composite = g2_img.getComposite();
             g2_img.setComposite(AlphaComposite.SrcIn);
             g2_img.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2_img.drawImage(toImage(icon), size.x, size.y, size.width, size.height, null);
+            g2_img.drawImage(toImage(image), size.x, size.y, size.width, size.height, null);
             g2_img.setComposite(composite);
             g2_img.dispose();
             Graphics2D g2 = (Graphics2D) grphcs;
@@ -98,7 +102,7 @@ public class ImageAvatar extends JComponent {
         return new Rectangle(new Point(x, y), new Dimension(width, height));
     }
 
-    private Image toImage(Icon icon) {
-        return ((ImageIcon) icon).getImage();
+    private Image toImage(Icon image) {
+        return ((ImageIcon) image).getImage();
     }
 }
