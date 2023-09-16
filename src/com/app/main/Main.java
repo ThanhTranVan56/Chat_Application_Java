@@ -3,6 +3,7 @@ package com.app.main;
 import com.app.event.EventImageView;
 import com.app.event.EventMain;
 import com.app.event.PublicEvent;
+import com.app.service.Service;
 import com.app.swing.ComponentResizer;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import java.awt.Dimension;
@@ -31,6 +32,7 @@ public class Main extends javax.swing.JFrame {
         view_Image.setVisible(false);
         home.setVisible(false);
         initEvent();
+        Service.getInstance().startServer();
     }
     private void initEvent(){
         PublicEvent.getInstance().addEventMain(new EventMain(){

@@ -1,6 +1,9 @@
 package com.app.form;
 
+import com.app.event.EventMessage;
 import com.app.event.PublicEvent;
+import com.app.model.Model_Message;
+import com.app.model.Model_Register;
 
 
 public class P_Register extends javax.swing.JPanel {
@@ -23,6 +26,7 @@ public class P_Register extends javax.swing.JPanel {
         cmdBackLogin = new javax.swing.JButton();
         txtRePass = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
+        lbError = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
@@ -58,6 +62,11 @@ public class P_Register extends javax.swing.JPanel {
 
         jLabel3.setText("Confirm Password");
 
+        lbError.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        lbError.setForeground(new java.awt.Color(255, 0, 0));
+        lbError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbError.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -66,6 +75,7 @@ public class P_Register extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lbError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtPass)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtUser, javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,7 +107,9 @@ public class P_Register extends javax.swing.JPanel {
                 .addComponent(cmdRegister)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmdBackLogin)
-                .addGap(25, 25, 25))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbError)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -106,7 +118,29 @@ public class P_Register extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdBackLoginActionPerformed
 
     private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
-        PublicEvent.getInstance().getEventLogin().register();
+        String userName = txtUser.getText().trim();
+        String password = String.valueOf(txtPass.getPassword());
+        String confirmPassword = String.valueOf(txtRePass.getPassword());
+        if(userName.equals("")){
+            txtUser.grabFocus();
+        } else if(password.equals("")){
+            txtPass.grabFocus();
+        }else if(!password.equals(confirmPassword)){
+            txtRePass.grabFocus();
+        }else{
+            Model_Register data = new Model_Register(userName, password);
+            PublicEvent.getInstance().getEventLogin().register(data,new EventMessage(){
+                @Override
+                public void callMessage(Model_Message message) {
+                    if(!message.isAction()){ 
+                        lbError.setText(message.getMessage());
+                    } else{
+                        PublicEvent.getInstance().getEventLogin().login();
+                    }
+                }
+                
+            });
+        }
     }//GEN-LAST:event_cmdRegisterActionPerformed
 
 
@@ -116,6 +150,7 @@ public class P_Register extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lbError;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JPasswordField txtRePass;

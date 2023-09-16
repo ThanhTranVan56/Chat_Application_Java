@@ -1,7 +1,12 @@
 package com.app.form;
 
 import com.app.event.EventLogin;
+import com.app.event.EventMessage;
 import com.app.event.PublicEvent;
+import com.app.model.Model_Message;
+import com.app.model.Model_Register;
+import com.app.service.Service;
+import io.socket.client.Ack;
 
 public class Login extends javax.swing.JPanel {
 
@@ -31,8 +36,18 @@ public class Login extends javax.swing.JPanel {
             }
 
             @Override
-            public void register() {
-                System.out.println("Register");
+            public void register(Model_Register data,EventMessage message) {
+                Service.getInstance().getClient().emit("register", data.toJsonObject(),new Ack(){
+                    @Override
+                    public void call(Object... os) {
+                       if(os.length > 0){
+                           Model_Message ms = new Model_Message((boolean) os[0], os[1].toString()); 
+                           message.callMessage(ms);
+                           // call message back when don register
+                       }
+                    }
+                
+                });
             }
 
             @Override
