@@ -5,5 +5,11 @@ https://stackoverflow.com/questions/16373459/java-jscrollbar-design
 https://stackoverflow.com/questions/23263901/pressing-both-mouse-buttons-not-working-correctly
 https://blurha.sh/
 https://github.com/lwolvej/blurhash4j/tree/main
+https://java-swing-tips.blogspot.com/2014/06/how-to-create-circular-progress.html
+https://stackoverflow.com/questions/5147768/scroll-jscrollpane-to-bottom
 cần tạo: 
 Icon app ( setIconImage(new ImageIcon(getClass().getResource("/com/app/icon/icons.png")).getImage()); )
+
+
+blurha: L8BWMOIp0LMx_M4nMxn+ADxG^jW=
+		LRKBREIq.8soit~qD%WA9ZI9nNNG

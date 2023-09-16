@@ -1,10 +1,14 @@
 package com.app.component;
 
 import com.app.swing.ScrollBar;
+import java.awt.Adjustable;
 import java.awt.Color;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
 
 public class Chat_Body extends javax.swing.JPanel {
@@ -19,7 +23,7 @@ public class Chat_Body extends javax.swing.JPanel {
         String img[] = {"L8BWMOIp0LMx_M4nMxn+ADxG^jW=", "LRKBREIq.8soit~qD%WA9ZI9nNNG"};
         addItemLeft("Hello \naaaaa \nbbbbb", "Tran", img);
         addItemRight("\naaaaa \nbbbbb");
-        addItemLeft("Hello \naaaaa \nbbbbb", "Van");
+         addItemLeft("Hello \naaaaa \nbbbbb", "Van");
 
         addDate("Today");
         addItemLeft("Hello \naaaaa \nbbbbb", "Tr", new ImageIcon(getClass().getResource("/com/app/icon/testing/test-2.jpg")), new ImageIcon(getClass().getResource("/com/app/icon/testing/test-1.jpg")));
@@ -78,6 +82,8 @@ public class Chat_Body extends javax.swing.JPanel {
         body.add(item, "wrap,al right, w 100::80%");
         body.repaint();
         body.revalidate();
+        item.setTime();
+        scrollToBottom();
     }
     public void addItemFileRight(String text, String fileName, String fileSize) {
         Chat_Right item = new Chat_Right();
@@ -132,7 +138,18 @@ public class Chat_Body extends javax.swing.JPanel {
             .addComponent(sp)
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    private void scrollToBottom() {
+    JScrollBar verticalBar = sp.getVerticalScrollBar();
+    AdjustmentListener downScroller = new AdjustmentListener() {
+        @Override
+        public void adjustmentValueChanged(AdjustmentEvent e) {
+            Adjustable adjustable = e.getAdjustable();
+            adjustable.setValue(adjustable.getMaximum());
+            verticalBar.removeAdjustmentListener(this);
+        }
+    };
+    verticalBar.addAdjustmentListener(downScroller);
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body;
