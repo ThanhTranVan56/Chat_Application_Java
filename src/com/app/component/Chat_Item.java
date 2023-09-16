@@ -56,13 +56,30 @@ public class Chat_Item extends javax.swing.JLayeredPane {
     public void setImage(boolean right,Icon  ...image){
         JLayeredPane layer = new JLayeredPane();
         layer.setLayout(new FlowLayout(right ? FlowLayout.RIGHT : FlowLayout.LEFT));
-        layer.setBorder(new EmptyBorder(0, 5, 5, 5)); 
+        layer.setBorder(new EmptyBorder(0, 5, 2, 5)); 
         Chat_Image chatImage = new Chat_Image(right);
         chatImage.addImage(image);
         layer.add(chatImage);
         add(layer);
     }
-    
+    public void setImage(boolean right,String  ...image){
+        JLayeredPane layer = new JLayeredPane();
+        layer.setLayout(new FlowLayout(right ? FlowLayout.RIGHT : FlowLayout.LEFT));
+        layer.setBorder(new EmptyBorder(0, 5, 2, 5)); 
+        Chat_Image chatImage = new Chat_Image(right);
+        chatImage.addImage(image);
+        layer.add(chatImage);
+        add(layer);
+    }
+    public void setFile(String fileName, String fileSize){
+        JLayeredPane layer = new JLayeredPane();
+        layer.setLayout(new FlowLayout(FlowLayout.LEFT));
+        layer.setBorder(new EmptyBorder(0, 2, 2, 0)); 
+        Chat_File  chatFile = new Chat_File();
+        chatFile.setFile(fileName, fileSize);
+        layer.add(chatFile);
+        add(layer);
+    }
     public void sendSuccess(){
         if(label != null){
             label.setIcon(new ImageIcon(getClass().getResource("/com/app/icon/icons8-tick-15.png")));

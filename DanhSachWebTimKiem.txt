@@ -2,6 +2,8 @@ https://icons8.com/icon/set/popular/nolan
 https://stackoverflow.com/questions/24476496/drag-and-resize-undecorated-jframe
 https://github.com/DJ-Raven/java-swing-image-avatar-v2/blob/main/src/com/raven/avatar/ImageAvatar.java
 https://stackoverflow.com/questions/16373459/java-jscrollbar-design
-
+https://stackoverflow.com/questions/23263901/pressing-both-mouse-buttons-not-working-correctly
+https://blurha.sh/
+https://github.com/lwolvej/blurhash4j/tree/main
 cần tạo: 
 Icon app ( setIconImage(new ImageIcon(getClass().getResource("/com/app/icon/icons.png")).getImage()); )

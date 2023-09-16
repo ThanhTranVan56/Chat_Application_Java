@@ -21,7 +21,7 @@ public class Main extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/com/app/icon/icons.png")).getImage());
         ComponentResizer com = new ComponentResizer();
         com.registerComponent(this);
-        com.setMinimumSize(new Dimension(800, 500));
+        com.setMinimumSize(new Dimension(900, 500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         com.setSnapSize(new Dimension(10,10));
         view_Image.setVisible(false);
@@ -50,8 +50,8 @@ public class Main extends javax.swing.JFrame {
         cmdMinimize = new javax.swing.JButton();
         cmdClose = new javax.swing.JButton();
         body = new javax.swing.JLayeredPane();
-        view_Image = new com.app.form.View_Image();
         home = new com.app.form.Home();
+        view_Image = new com.app.form.View_Image();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -116,9 +116,9 @@ public class Main extends javax.swing.JFrame {
         );
 
         body.setLayout(new java.awt.CardLayout());
+        body.add(home, "card2");
         body.setLayer(view_Image, javax.swing.JLayeredPane.POPUP_LAYER);
         body.add(view_Image, "card3");
-        body.add(home, "card2");
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
