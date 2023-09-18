@@ -3,6 +3,7 @@ package com.app.main;
 import com.app.event.EventImageView;
 import com.app.event.EventMain;
 import com.app.event.PublicEvent;
+import com.app.model.Model_User_Account;
 import com.app.service.Service;
 import com.app.swing.ComponentResizer;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
@@ -13,20 +14,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Main extends javax.swing.JFrame {
-    
-   
+
     public Main() {
         initComponents();
         init();
     }
-    
-    private void init(){
+
+    private void init() {
         setIconImage(new ImageIcon(getClass().getResource("/com/app/icon/icons.png")).getImage());
         ComponentResizer com = new ComponentResizer();
         com.registerComponent(this);
         com.setMinimumSize(new Dimension(900, 500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
-        com.setSnapSize(new Dimension(10,10));
+        com.setSnapSize(new Dimension(10, 10));
         login.setVisible(true);
         loading.setVisible(false);
         view_Image.setVisible(false);
@@ -34,30 +34,44 @@ public class Main extends javax.swing.JFrame {
         initEvent();
         Service.getInstance().startServer();
     }
-    private void initEvent(){
-        PublicEvent.getInstance().addEventMain(new EventMain(){
+
+    private void initEvent() {
+        PublicEvent.getInstance().addEventMain(new EventMain() {
             @Override
             public void showLoading(boolean show) {
                 loading.setVisible(show);
-              }
+            }
 
             @Override
             public void initChat() {
                 home.setVisible(true);
+                login.setVisible(false);
+                Service.getInstance().getClient().emit("list_user", Service.getInstance().getUser().getUserID());
             }
-        
-        });
-        PublicEvent.getInstance().addEventImageView(new EventImageView(){
+            
             @Override
-            public void viewImage(Icon image){
+            public void selectUser(Model_User_Account user) {
+                home.setUser(user);
+            }
+            
+            @Override
+            public void updateUser(Model_User_Account user) {
+                home.updateUser(user);
+            }
+        });
+        PublicEvent.getInstance().addEventImageView(new EventImageView() {
+            @Override
+            public void viewImage(Icon image) {
                 view_Image.viewImage(image);
             }
+
             @Override
-            public void saveImage(Icon image){
+            public void saveImage(Icon image) {
                 System.out.println("Save Image");
             }
-        });     
+        });
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -196,7 +210,7 @@ public class Main extends javax.swing.JFrame {
 
     private int pX, pY;
     private void titleMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titleMouseDragged
-        this.setLocation(this.getLocation().x + evt.getX() - pX,this.getLocation().y + evt.getY() - pY);
+        this.setLocation(this.getLocation().x + evt.getX() - pX, this.getLocation().y + evt.getY() - pY);
     }//GEN-LAST:event_titleMouseDragged
 
     private void titleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titleMousePressed
@@ -211,14 +225,12 @@ public class Main extends javax.swing.JFrame {
     private void cmdCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCloseActionPerformed
         System.exit(0);
     }//GEN-LAST:event_cmdCloseActionPerformed
-                                
-                                         
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -244,7 +256,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
     }
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

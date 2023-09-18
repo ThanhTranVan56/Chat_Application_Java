@@ -1,5 +1,9 @@
 package com.app.component;
 
+import com.app.apps.MessageType;
+import com.app.emoji.Emogi;
+import com.app.model.Model_Receive_Message;
+import com.app.model.Model_Send_Message;
 import com.app.swing.ScrollBar;
 import java.awt.Adjustable;
 import java.awt.Color;
@@ -16,21 +20,6 @@ public class Chat_Body extends javax.swing.JPanel {
     public Chat_Body() {
         initComponents();
         init();
-        addItemLeft("That's so weird. Right now I'm running on Ubuntu with Java 1.7, but I get the same problem when I run it on Windows 7 with Java 1.7. Do you have any idea why they would be different?", "Thanh");
-
-        addItemRight("That's so weird. Right now I'm running on Ubuntu with Java 1.7, but I get the same problem when I run it on Windows 7 with Java 1.7. Do you have any idea why they would be different?");
-        addDate("12/09/2023");
-        String img[] = {"L8BWMOIp0LMx_M4nMxn+ADxG^jW=", "LRKBREIq.8soit~qD%WA9ZI9nNNG"};
-        addItemLeft("Hello \naaaaa \nbbbbb", "Tran", img);
-        addItemRight("\naaaaa \nbbbbb");
-         addItemLeft("Hello \naaaaa \nbbbbb", "Van");
-
-        addDate("Today");
-        addItemLeft("Hello \naaaaa \nbbbbb", "Tr", new ImageIcon(getClass().getResource("/com/app/icon/testing/test-2.jpg")), new ImageIcon(getClass().getResource("/com/app/icon/testing/test-1.jpg")));
-        addItemLeft("", "Tr", new ImageIcon(getClass().getResource("/com/app/icon/testing/test-2.jpg")));
-        addItemRight("\naaaaa \nbbbbb", new ImageIcon(getClass().getResource("/com/app/icon/testing/test-2.jpg")));
-        addItemFile("my file", "Thanh", "my_doc.pdf", "1 MB");
-        addItemFileRight("", "Myfile.rar","15 MB");
     }
 
     private void init() {
@@ -39,16 +28,20 @@ public class Chat_Body extends javax.swing.JPanel {
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
 
-    public void addItemLeft(String text, String user, Icon... image) {
-        Chat_Left_With_Profile item = new Chat_Left_With_Profile();
-        //Chat_Left item = new Chat_Left();
-        item.setUserProfile(user);
-        item.setImage(image);
-        item.setTime();
-        item.setText(text);
-        body.add(item, "wrap, w 100::80%");
-        body.repaint();
-        body.revalidate();
+    public void addItemLeft(Model_Receive_Message data) {
+        if (data.getMessageType() == MessageType.TEXT) {
+            Chat_Left item = new Chat_Left();
+            item.setText(data.getText());
+            item.setTime();
+            body.add(item, "wrap, w 100::80%");
+        } else if (data.getMessageType() == MessageType.EMOJI) {
+            Chat_Left item = new Chat_Left();
+            item.setEmoji(Emogi.getInstance().getEmoji(Integer.valueOf(data.getText())).getIcon());
+            item.setTime();
+            body.add(item, "wrap, w 100::80%");
+        }
+        repaint();
+        revalidate();
     }
 
     public void addItemLeft(String text, String user, String[] image) {
@@ -75,16 +68,23 @@ public class Chat_Body extends javax.swing.JPanel {
         body.revalidate();
     }
 
-    public void addItemRight(String text, Icon... image) {
-        Chat_Right item = new Chat_Right();
-        item.setText(text);
-        item.setImage(image);
-        body.add(item, "wrap,al right, w 100::80%");
-        body.repaint();
-        body.revalidate();
-        item.setTime();
+    public void addItemRight(Model_Send_Message data) {
+        if (data.getMessageType() == MessageType.TEXT) {
+            Chat_Right item = new Chat_Right();
+            item.setText(data.getText());
+            body.add(item, "wrap,al right, w 100::80%");
+            item.setTime();
+        } else if (data.getMessageType() == MessageType.EMOJI) {
+            Chat_Right item = new Chat_Right();
+            item.setEmoji(Emogi.getInstance().getEmoji(Integer.valueOf(data.getText())).getIcon());
+            body.add(item, "wrap,al right, w 100::80%");
+            item.setTime();
+        }
+        repaint();
+        revalidate();
         scrollToBottom();
     }
+
     public void addItemFileRight(String text, String fileName, String fileSize) {
         Chat_Right item = new Chat_Right();
         item.setText(text);
@@ -93,12 +93,19 @@ public class Chat_Body extends javax.swing.JPanel {
         body.repaint();
         body.revalidate();
     }
+
     public void addDate(String date) {
         Chat_Date item = new Chat_Date();
         item.setDate(date);
         body.add(item, "wrap, al center");
         body.repaint();
         body.revalidate();
+    }
+
+    public void clearChat() {
+        body.removeAll();
+        repaint();
+        revalidate();
     }
 
     @SuppressWarnings("unchecked")
@@ -139,17 +146,17 @@ public class Chat_Body extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     private void scrollToBottom() {
-    JScrollBar verticalBar = sp.getVerticalScrollBar();
-    AdjustmentListener downScroller = new AdjustmentListener() {
-        @Override
-        public void adjustmentValueChanged(AdjustmentEvent e) {
-            Adjustable adjustable = e.getAdjustable();
-            adjustable.setValue(adjustable.getMaximum());
-            verticalBar.removeAdjustmentListener(this);
-        }
-    };
-    verticalBar.addAdjustmentListener(downScroller);
-}
+        JScrollBar verticalBar = sp.getVerticalScrollBar();
+        AdjustmentListener downScroller = new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                Adjustable adjustable = e.getAdjustable();
+                adjustable.setValue(adjustable.getMaximum());
+                verticalBar.removeAdjustmentListener(this);
+            }
+        };
+        verticalBar.addAdjustmentListener(downScroller);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body;

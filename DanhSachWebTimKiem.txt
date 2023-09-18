@@ -1,3 +1,6 @@
+***Java Swing***
+
+
 https://icons8.com/icon/set/popular/nolan
 https://stackoverflow.com/questions/24476496/drag-and-resize-undecorated-jframe
 https://github.com/DJ-Raven/java-swing-image-avatar-v2/blob/main/src/com/raven/avatar/ImageAvatar.java
@@ -9,9 +12,22 @@ https://java-swing-tips.blogspot.com/2014/06/how-to-create-circular-progress.htm
 https://stackoverflow.com/questions/5147768/scroll-jscrollpane-to-bottom
 https://stackoverflow.com/questions/1738966/java-jtextfield-with-input-hint
 https://github.com/DJ-Raven/java-swing-slide/blob/main/src/slide/PanelSlide.java
+
+
 cần tạo: 
 Icon app ( setIconImage(new ImageIcon(getClass().getResource("/com/app/icon/icons.png")).getImage()); )
 
-
-blurha: L8BWMOIp0LMx_M4nMxn+ADxG^jW=
-		LRKBREIq.8soit~qD%WA9ZI9nNNG
+cần làm: 	+ Chat group
+			+ Lưu trữ cuộc trò chuyện(toàn cục, kiểm soát bằng UserID (thiết lập khóa ngoại giữa 
+			bảng user và bảng data_message - (if UserID == sendID && UserID == receiverID) => ok))	
+			messageID tăng dần ??? timesTamp tăng dần ???
+			--- suy nghĩ tiếp :))
+				- database:	messageID
+							sendID
+							receiverID
+							message
+							imageString
+							file???
+							icon
+							timesTamp
+			+ Hiển thị cuộc trò chuyện

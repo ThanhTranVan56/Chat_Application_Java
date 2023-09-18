@@ -2,6 +2,7 @@ package com.app.form;
 
 import com.app.event.EventLogin;
 import com.app.event.PublicEvent;
+import com.app.model.Model_Login;
 
 public class P_Login extends javax.swing.JPanel {
 
@@ -82,11 +83,11 @@ public class P_Login extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(40, 40, 40)
                 .addComponent(cmdLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmdRegister)
-                .addGap(0, 79, Short.MAX_VALUE))
+                .addGap(0, 57, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -95,7 +96,7 @@ public class P_Login extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdRegisterActionPerformed
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
-        PublicEvent.getInstance().getEventLogin().login();
+        PublicEvent.getInstance().getEventLogin().login(new Model_Login(txtUser.getText(),String.valueOf(txtPass.getPassword())));
     }//GEN-LAST:event_cmdLoginActionPerformed
 
 

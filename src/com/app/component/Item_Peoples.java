@@ -1,37 +1,67 @@
 package com.app.component;
 
+import com.app.event.PublicEvent;
+import com.app.model.Model_User_Account;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Item_Peoples extends javax.swing.JPanel {
-    public Item_Peoples() {
-        initComponents();
+
+    public Model_User_Account getUser() {
+        return user;
     }
 
-   public Item_Peoples(String name) {
+    private boolean mouseOver;
+    private final Model_User_Account user;
+
+    public Item_Peoples(Model_User_Account user) {
         initComponents();
-        lb.setText(name);
+        this.user = user;
+        lb.setText(user.getUserName());
+        activeStatus.setActive(user.isStatus());
+         if(user.isStatus()){
+            lbStatus.setForeground(new java.awt.Color(62, 146, 49));
+        } 
         init();
     }
-    private void init(){
-        addMouseListener(new MouseAdapter(){
+
+    public void updateStatus() {
+        activeStatus.setActive(user.isStatus());
+        lbStatus.setForeground(new java.awt.Color(62, 146, 49));
+    }
+
+    private void init() {
+        addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent me){
-                setBackground(new Color(229,229,229));
+            public void mouseEntered(MouseEvent me) {
+                setBackground(new Color(229, 229, 229));
+                mouseOver = true;
             }
+
             @Override
-            public void mouseExited(MouseEvent me){
-                setBackground(new Color(242,242,242));
+            public void mouseExited(MouseEvent me) {
+                setBackground(new Color(242, 242, 242));
+                mouseOver = false;
+            }
+            
+            @Override
+            public void mouseReleased(MouseEvent me) {
+                if(mouseOver){
+                    PublicEvent.getInstance().getEventMain().selectUser(user);
+                }
             }
         });
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         imageAvatar1 = new com.app.swing.ImageAvatar();
         lb = new javax.swing.JLabel();
+        lbStatus = new javax.swing.JLabel();
+        activeStatus = new com.app.swing.ActiveStatus();
 
         setBackground(new java.awt.Color(242, 242, 242));
         setForeground(new java.awt.Color(242, 242, 242));
@@ -40,30 +70,52 @@ public class Item_Peoples extends javax.swing.JPanel {
         imageAvatar1.setMaximumSize(new java.awt.Dimension(35, 35));
         imageAvatar1.setMinimumSize(new java.awt.Dimension(35, 35));
 
+        lb.setForeground(new java.awt.Color(0, 0, 0));
         lb.setText("Name");
+
+        lbStatus.setBackground(new java.awt.Color(117, 117, 117));
+        lbStatus.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lbStatus.setForeground(new java.awt.Color(137, 137, 137));
+        lbStatus.setText("Active Now");
+
+        activeStatus.setActive(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lb, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-                .addGap(106, 106, 106))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
+                        .addComponent(activeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(lb, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lb))
+                .addComponent(lb, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(activeStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(2, 2, 2))
+            .addComponent(imageAvatar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.app.swing.ActiveStatus activeStatus;
     private com.app.swing.ImageAvatar imageAvatar1;
     private javax.swing.JLabel lb;
+    private javax.swing.JLabel lbStatus;
     // End of variables declaration//GEN-END:variables
 }

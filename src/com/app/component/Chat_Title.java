@@ -1,23 +1,50 @@
-
 package com.app.component;
 
+import com.app.model.Model_User_Account;
+
 public class Chat_Title extends javax.swing.JPanel {
+
+    public Model_User_Account getUser() {
+        return user;
+    }
+
+    private Model_User_Account user;
 
     public Chat_Title() {
         initComponents();
     }
 
-    public void setUserName(String userName){
-        lbName.setText(userName);
+    public void setUserName(Model_User_Account user) {
+        this.user = user;
+        lbName.setText(user.getUserName());
+        if (user.isStatus()) {
+            statusActive();
+        } else {
+            setStatusText("Offline");
+        }
     }
-    public void statusActive(){
+
+    public void updateUser(Model_User_Account user) {
+        if (this.user == user) {
+            lbName.setText(user.getUserName());
+            if (user.isStatus()) {
+                statusActive();
+            } else {
+                setStatusText("Offline");
+            }
+        }
+    }
+
+    private void statusActive() {
         lbStatus.setText("Active Now");
         lbStatus.setForeground(new java.awt.Color(46, 253, 61));
     }
-    public void setStatusText(String text){
+
+    private void setStatusText(String text) {
         lbStatus.setText(text);
-        lbStatus.setForeground(new java.awt.Color(160,160,160));
+        lbStatus.setForeground(new java.awt.Color(160, 160, 160));
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
