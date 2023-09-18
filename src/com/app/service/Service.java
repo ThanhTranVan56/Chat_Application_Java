@@ -1,6 +1,8 @@
 package com.app.service;
 
+import com.app.event.EventFileReceiver;
 import com.app.event.PublicEvent;
+import com.app.model.Model_File_Receiver;
 import com.app.model.Model_File_Sender;
 import com.app.model.Model_Receive_Message;
 import com.app.model.Model_Send_Message;
@@ -22,6 +24,7 @@ public class Service {
     private Model_User_Account user;
     private final String IP = "localhost";
     private List<Model_File_Sender> fileSender;
+    private List<Model_File_Receiver> fileReceiver;
 
     public static Service getInstance() {
         if (instance == null) {
@@ -32,6 +35,7 @@ public class Service {
 
     private Service() {
         fileSender = new ArrayList<>();
+        fileReceiver = new ArrayList<>();
     }
 
     public void startServer() {
@@ -96,6 +100,22 @@ public class Service {
         if(!fileSender.isEmpty()){
             //start send new file when old file sendng finish
             fileSender.get(0).initSend();
+        }
+    }
+    
+    public void fileReceiveFinish(Model_File_Receiver data) throws IOException{
+        fileReceiver.remove(data);
+        if(!fileReceiver.isEmpty()){
+            //start send new file when old file sendng finish
+            fileReceiver.get(0).initReceive();
+        }
+    }
+    
+    public void addFileReceiver(int fileID, EventFileReceiver event) throws IOException{
+        Model_File_Receiver data = new Model_File_Receiver(fileID, client,event);
+        fileReceiver.add(data);
+         if(fileReceiver.size() == 1){
+            data.initReceive();
         }
     }
     

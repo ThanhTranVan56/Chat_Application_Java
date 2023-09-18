@@ -6,6 +6,14 @@ import org.json.JSONObject;
 
 public class Model_Receive_Message {
 
+    public Model_Receive_Image getDataImage() {
+        return dataImage;
+    }
+
+    public void setDataImage(Model_Receive_Image dataImage) {
+        this.dataImage = dataImage;
+    }
+
     public MessageType getMessageType() {
         return messageType;
     }
@@ -42,6 +50,9 @@ public class Model_Receive_Message {
             messageType = MessageType.toMessageType(obj.getInt("messageType"));
             fromUserID = obj.getInt("fromUserID");
             text = obj.getString("text");
+            if(!obj.isNull("dataImage")){
+                dataImage = new Model_Receive_Image(obj.get("dataImage"));
+            }
         } catch (JSONException e) {
             System.err.println(e);
         }
@@ -50,6 +61,7 @@ public class Model_Receive_Message {
     private MessageType messageType;
     private int fromUserID;
     private String text;
+    private Model_Receive_Image dataImage;
     
     public JSONObject toJsonObject() {
         try {
@@ -57,6 +69,9 @@ public class Model_Receive_Message {
             json.put("messageType", messageType.getValue());
             json.put("fromUserID", fromUserID);
             json.put("text", text);
+            if(dataImage != null){
+                json.put("dataImage", dataImage.toJsonObject());
+            }
             return json;
         } catch (JSONException e) {
             return null;

@@ -1,5 +1,7 @@
 package com.app.model;
 
+import com.app.event.EventFileSender;
+import com.app.service.Service;
 import io.socket.client.Ack;
 import io.socket.client.Socket;
 import java.io.File;
@@ -64,7 +66,7 @@ public class Model_File_Sender {
         this.socket = socket;
     }
 
-    public Model_File_Sender(File file, Socket socket,Model_Send_Message message) throws IOException {
+    public Model_File_Sender(File file, Socket socket, Model_Send_Message message) throws IOException {
         accFile = new RandomAccessFile(file, "r");
         this.file = file;
         this.socket = socket;
@@ -82,6 +84,7 @@ public class Model_File_Sender {
     private long fileSize;
     private RandomAccessFile accFile;
     private Socket socket;
+    private EventFileSender event;
 
     public synchronized byte[] readFile() throws IOException {
         long filepointer = accFile.getFilePointer();
@@ -115,6 +118,9 @@ public class Model_File_Sender {
 
     public void startSend(int fileID) throws IOException {
         this.fileID = fileID;
+        if (event != null) {
+            event.onStartSending();
+        }
         sendingFile();
     }
 
@@ -129,25 +135,33 @@ public class Model_File_Sender {
             data.setFinish(true);
             close();
         }
-        socket.emit("send_file", data.toJsonObject(), new Ack(){
+        socket.emit("send_file", data.toJsonObject(), new Ack() {
             @Override
             public void call(Object... os) {
-            
-            if(os.length > 0){
-                boolean act = (boolean) os[0];
-                if(act){
-                    try {
-                        if(!data.isFinish()){
-                            sendingFile();
-                        }else{
-                            //File send finish
+
+                if (os.length > 0) {
+                    boolean act = (boolean) os[0];
+                    if (act) {
+                        try {
+                            if (!data.isFinish()) {
+                                if (event != null) {
+                                    event.onSending(getPercentage());
+                                }
+                                sendingFile();
+                            } else {
+                                //File send finish
+                                Service.getInstance().fileSendFinish(Model_File_Sender.this);
+                                if (event != null) {
+                                    event.onFinish();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
-                }}
+                }
             }
-        
+
         });
     }
 
@@ -165,5 +179,9 @@ public class Model_File_Sender {
 
     private String getExtensions(String fileName) {
         return fileName.substring(fileName.lastIndexOf("."), fileName.length());
+    }
+
+    public void addEvent(EventFileSender event) {
+        this.event = event;
     }
 }

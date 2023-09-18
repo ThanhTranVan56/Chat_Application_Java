@@ -17,6 +17,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -69,7 +70,7 @@ public class Panel_More extends javax.swing.JPanel {
 
         cmd.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent ae) {
                 JFileChooser ch = new JFileChooser();
                 ch.setMultiSelectionEnabled(true);
                 ch.setFileFilter(new FileFilter(){
@@ -86,7 +87,16 @@ public class Panel_More extends javax.swing.JPanel {
                 
                 int option = ch.showOpenDialog(Main.getFrames()[0]);
                 if(option == JFileChooser.APPROVE_OPTION){
-                    
+                    File files[] = ch.getSelectedFiles();
+                    try {
+                        for(File file :files){
+                            Model_Send_Message message = new Model_Send_Message(MessageType.IMAGE, Service.getInstance().getUser().getUserID(),user.getUserID(),"");
+                            Service.getInstance().addFile(file,message);
+                            PublicEvent.getInstance().getEventChat().sendMessage(message);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -100,7 +110,7 @@ public class Panel_More extends javax.swing.JPanel {
 
         cmd.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent ae) {
                 
             }
 
