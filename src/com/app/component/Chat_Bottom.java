@@ -24,9 +24,15 @@ import net.miginfocom.swing.MigLayout;
 
 public class Chat_Bottom extends javax.swing.JPanel {
 
+    private JButton cmdMore;
+    
     public void setUser(Model_User_Account user) {
         this.user = user;
         panelMore.setUser(user);
+        panelMore.setVisible(false);
+        mig.setComponentConstraints(panelMore, "dock south, h 0!");
+        cmdMore.setIcon(new ImageIcon(getClass().getResource("/com/app/icon/more-disable.png")));
+        revalidate();
     }
 
     public Model_User_Account getUser() {
@@ -37,7 +43,9 @@ public class Chat_Bottom extends javax.swing.JPanel {
 
     public Chat_Bottom() {
         initComponents();
+        cmdMore = new JButton();
         init();
+        
     }
 
     private void init() {
@@ -81,8 +89,6 @@ public class Chat_Bottom extends javax.swing.JPanel {
                 eventSend(txt);
             }
         });
-
-        JButton cmdMore = new JButton();
         cmdMore.setBorder(null);
         cmdMore.setContentAreaFilled(false);
         cmdMore.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -116,7 +122,7 @@ public class Chat_Bottom extends javax.swing.JPanel {
     private void eventSend(JIMSendTextPane txt) {
         String text = txt.getText().trim();
         if (!text.equals("")) {
-            Model_Send_Message message = new Model_Send_Message(MessageType.TEXT,Service.getInstance().getUser().getUserID(), user.getUserID(), text);
+            Model_Send_Message message = new Model_Send_Message(MessageType.TEXT, Service.getInstance().getUser().getUserID(), user.getUserID(), text);
             send(message);
             PublicEvent.getInstance().getEventChat().sendMessage(message);
             txt.setText("");

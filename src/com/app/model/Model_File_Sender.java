@@ -7,6 +7,7 @@ import io.socket.client.Socket;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.text.DecimalFormat;
 
 public class Model_File_Sender {
 
@@ -86,6 +87,8 @@ public class Model_File_Sender {
     private Socket socket;
     private EventFileSender event;
 
+    private static final String[] fileSizeUnits = {"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+
     public synchronized byte[] readFile() throws IOException {
         long filepointer = accFile.getFilePointer();
         if (filepointer != fileSize) {
@@ -98,21 +101,35 @@ public class Model_File_Sender {
             return null;
         }
     }
-
+    
+    public String getFileSizeConvert(double bytes) {
+        String sizeToReturn;
+        DecimalFormat df = new DecimalFormat("0.#");
+        int index;
+        for (index = 0; index < fileSizeUnits.length; index++) {
+            if (bytes < 1024) {
+                break;
+            }
+            bytes = bytes / 1024;
+        }
+        System.out.println("Systematic file size: " + bytes + " " + fileSizeUnits[index]);
+        sizeToReturn = df.format(bytes) + " " + fileSizeUnits[index];
+        return sizeToReturn;
+    }
     public void initSend() throws IOException {
         socket.emit("send_to_user", message.toJsonObject(), new Ack() {
             @Override
             public void call(Object... os) {
+                System.out.println("Da tra loi");
                 if (os.length > 0) {
                     int fileID = (int) os[0];
                     try {
                         startSend(fileID);
-                    } catch (Exception e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
-
         });
     }
 
@@ -135,10 +152,11 @@ public class Model_File_Sender {
             data.setFinish(true);
             close();
         }
+        System.out.println("bat dau send");
         socket.emit("send_file", data.toJsonObject(), new Ack() {
             @Override
             public void call(Object... os) {
-
+                System.out.println("send thanh cong");
                 if (os.length > 0) {
                     boolean act = (boolean) os[0];
                     if (act) {

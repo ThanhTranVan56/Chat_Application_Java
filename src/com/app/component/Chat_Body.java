@@ -2,8 +2,10 @@ package com.app.component;
 
 import com.app.apps.MessageType;
 import com.app.emoji.Emogi;
+import com.app.model.Model_Load_Data;
 import com.app.model.Model_Receive_Message;
 import com.app.model.Model_Send_Message;
+import com.app.service.Service;
 import com.app.swing.ScrollBar;
 import java.awt.Adjustable;
 import java.awt.Color;
@@ -29,6 +31,28 @@ public class Chat_Body extends javax.swing.JPanel {
     }
 
     public void addItemLeft(Model_Receive_Message data) {
+        if (data.getMessageType() == MessageType.TEXT) {
+            Chat_Left item = new Chat_Left();
+            item.setText(data.getText());
+            item.setTime();
+            body.add(item, "wrap, w 100::80%");
+        } else if (data.getMessageType() == MessageType.EMOJI) {
+            Chat_Left item = new Chat_Left();
+            item.setEmoji(Emogi.getInstance().getEmoji(Integer.valueOf(data.getText())).getIcon());
+            item.setTime();
+            body.add(item, "wrap, w 100::80%");
+        } else if (data.getMessageType() == MessageType.IMAGE) {
+            Chat_Left item = new Chat_Left();
+            item.setText("");
+            item.setImage(data.getDataImage());
+            item.setTime();
+            body.add(item, "wrap, w 100::80%");
+        }
+        repaint();
+        revalidate();
+    }
+    
+    public void addItemLeft(Model_Load_Data data) {
         if (data.getMessageType() == MessageType.TEXT) {
             Chat_Left item = new Chat_Left();
             item.setText(data.getText());
@@ -96,6 +120,28 @@ public class Chat_Body extends javax.swing.JPanel {
         revalidate();
         scrollToBottom();
     }
+    public void addItemRight(Model_Load_Data data) {
+        if (data.getMessageType() == MessageType.TEXT) {
+            Chat_Right item = new Chat_Right();
+            item.setText(data.getText());
+            item.setTime();
+            body.add(item, "wrap,al right, w 100::80%");
+        } else if (data.getMessageType() == MessageType.EMOJI) {
+            Chat_Right item = new Chat_Right();
+            item.setEmoji(Emogi.getInstance().getEmoji(Integer.valueOf(data.getText())).getIcon());
+            item.setTime();
+            body.add(item, "wrap,al right, w 100::80%");
+        } else if (data.getMessageType() == MessageType.IMAGE) {
+            Chat_Right item = new Chat_Right();
+            item.setText("");
+            item.setImage(data.getDataImage());
+            item.setTime();
+            body.add(item, "wrap,al right, w 100::80%");
+        }
+        repaint();
+        revalidate();
+        scrollToBottom();
+    }
 
     public void addItemFileRight(String text, String fileName, String fileSize) {
         Chat_Right item = new Chat_Right();
@@ -118,6 +164,10 @@ public class Chat_Body extends javax.swing.JPanel {
         body.removeAll();
         repaint();
         revalidate();
+    }
+    
+    public void loadData(int UID){
+        Service.getInstance().getClient().emit("list_data_user", UID);
     }
 
     @SuppressWarnings("unchecked")

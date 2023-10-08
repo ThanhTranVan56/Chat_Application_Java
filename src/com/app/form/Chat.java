@@ -5,6 +5,7 @@ import com.app.component.Chat_Bottom;
 import com.app.component.Chat_Title;
 import com.app.event.EventChat;
 import com.app.event.PublicEvent;
+import com.app.model.Model_Load_Data;
 import com.app.model.Model_Receive_Message;
 import com.app.model.Model_Send_Message;
 import com.app.model.Model_User_Account;
@@ -38,6 +39,16 @@ public class Chat extends javax.swing.JPanel {
                     chatBody.addItemLeft(data);
                 }
             }
+
+            @Override
+            public void loadData(Model_Load_Data data, boolean type) {
+               if(type){
+                   chatBody.addItemRight(data);
+               }
+               else{
+                   chatBody.addItemLeft(data);
+               }
+            }
         });
         add(chatTitle, "wrap");
         add(chatBody, "wrap");
@@ -48,7 +59,8 @@ public class Chat extends javax.swing.JPanel {
     public void setUser(Model_User_Account user) {
         chatTitle.setUserName(user);
         chatBottom.setUser(user);
-        chatBody.clearChat();
+        chatBody.clearChat();  //update chat : neu duoc
+        chatBody.loadData(user.getUserID());
     }
 
     public void updateUser(Model_User_Account user) {

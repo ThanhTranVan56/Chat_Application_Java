@@ -4,16 +4,15 @@ import com.app.apps.MessageType;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Model_Send_Message {
+public class Model_Load_Data {
 
-    public Model_File_Sender getFile() {
-        return file;
+    public Model_Receive_Image getDataImage() {
+        return dataImage;
     }
 
-    public void setFile(Model_File_Sender file) {
-        this.file = file;
+    public void setDataImage(Model_Receive_Image dataImage) {
+        this.dataImage = dataImage;
     }
-
     public MessageType getMessageType() {
         return messageType;
     }
@@ -46,14 +45,25 @@ public class Model_Send_Message {
         this.text = text;
     }
     
-    public Model_Send_Message(MessageType messageType, int fromUserID, int toUserID, String text){
+    public Model_Load_Data(MessageType messageType, int fromUserID, int toUserID, String text){
         this.messageType = messageType;
         this.fromUserID = fromUserID;
         this.toUserID = toUserID;
         this.text = text;
     }
     
-    public Model_Send_Message(Object o){
+    public Model_Load_Data(Object json){
+        JSONObject obj = (JSONObject) json;
+        try {
+            messageType = MessageType.toMessageType(obj.getInt("messageType"));
+            fromUserID = obj.getInt("fromUserID");
+            text = obj.getString("text");
+            if(!obj.isNull("dataImage")){
+                dataImage = new Model_Receive_Image(obj.get("dataImage"));
+            }
+        } catch (JSONException e) {
+            System.err.println(e);
+        }
     }
           
     private MessageType messageType;
@@ -61,6 +71,7 @@ public class Model_Send_Message {
     private int toUserID;
     private String text;
     private Model_File_Sender file;
+    private Model_Receive_Image dataImage;
     
     public JSONObject toJsonObject() {
         try {
@@ -80,3 +91,4 @@ public class Model_Send_Message {
         }
     }
 }
+

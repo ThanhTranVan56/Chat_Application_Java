@@ -4,6 +4,7 @@ import com.app.event.EventMessage;
 import com.app.event.PublicEvent;
 import com.app.model.Model_Message;
 import com.app.model.Model_Register;
+import com.app.model.Model_Send_Message;
 
 
 public class P_Register extends javax.swing.JPanel {
@@ -138,7 +139,6 @@ public class P_Register extends javax.swing.JPanel {
                         PublicEvent.getInstance().getEventMain().initChat();
                     }
                 }
-                
             });
         }
     }//GEN-LAST:event_cmdRegisterActionPerformed

@@ -39,7 +39,7 @@ public class Panel_More extends javax.swing.JPanel {
     }
 
     private Model_User_Account user;
-    
+
     public Panel_More() {
         initComponents();
         init();
@@ -64,7 +64,7 @@ public class Panel_More extends javax.swing.JPanel {
         add(ch, "w 100%, h 100%");
     }
 
-    private JButton getButtonImage(){
+    private JButton getButtonImage() {
         OptionButton cmd = new OptionButton();
         cmd.setIcon(new ImageIcon(getClass().getResource("/com/app/icon/image.png")));
 
@@ -73,29 +73,28 @@ public class Panel_More extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent ae) {
                 JFileChooser ch = new JFileChooser();
                 ch.setMultiSelectionEnabled(true);
-                ch.setFileFilter(new FileFilter(){
+                ch.setFileFilter(new FileFilter() {
                     @Override
                     public boolean accept(File file) {
                         return file.isDirectory() || isImageFile(file);
                     }
-                    
+
                     @Override
                     public String getDescription() {
                         return "Image File";
                     }
                 });
-                
                 int option = ch.showOpenDialog(Main.getFrames()[0]);
-                if(option == JFileChooser.APPROVE_OPTION){
+                if (option == JFileChooser.APPROVE_OPTION) {
                     File files[] = ch.getSelectedFiles();
                     try {
-                        for(File file :files){
-                            Model_Send_Message message = new Model_Send_Message(MessageType.IMAGE, Service.getInstance().getUser().getUserID(),user.getUserID(),"");
-                            Service.getInstance().addFile(file,message);
+                        for (File file : files) {
+                            Model_Send_Message message = new Model_Send_Message(MessageType.IMAGE, Service.getInstance().getUser().getUserID(), user.getUserID(), "");
+                            Service.getInstance().addFile(file, message);
                             PublicEvent.getInstance().getEventChat().sendMessage(message);
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        System.err.println(e);
                     }
                 }
             }
@@ -103,7 +102,7 @@ public class Panel_More extends javax.swing.JPanel {
         });
         return cmd;
     }
-    
+
     private JButton getButtonFile() {
         OptionButton cmd = new OptionButton();
         cmd.setIcon(new ImageIcon(getClass().getResource("/com/app/icon/link1.png")));
@@ -111,7 +110,21 @@ public class Panel_More extends javax.swing.JPanel {
         cmd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                
+                JFileChooser ch = new JFileChooser();
+                ch.setMultiSelectionEnabled(true);
+                int option = ch.showOpenDialog(Main.getFrames()[0]);
+                if (option == JFileChooser.APPROVE_OPTION) {
+                    File files[] = ch.getSelectedFiles();
+                    try {
+                        for (File file : files) {
+                            Model_Send_Message message = new Model_Send_Message(MessageType.FILE, Service.getInstance().getUser().getUserID(), user.getUserID(), "");
+                            Service.getInstance().addFile(file, message);
+                            PublicEvent.getInstance().getEventChat().sendMessage(message);
+                        }
+                    } catch (IOException e) {
+                        System.err.println(e);
+                    }
+                }
             }
 
         });
@@ -128,7 +141,7 @@ public class Panel_More extends javax.swing.JPanel {
                 cmd.setSelected(true);
                 panelDetail.removeAll();
                 for (Model_Emoji d : Emogi.getInstance().getStyle1()) {
-                   panelDetail.add(getButton(d));
+                    panelDetail.add(getButton(d));
                 }
                 panelDetail.repaint();
                 panelDetail.revalidate();
@@ -164,21 +177,22 @@ public class Panel_More extends javax.swing.JPanel {
         cmd.setBorder(new EmptyBorder(1, 1, 1, 1));
         cmd.setCursor(new Cursor(Cursor.HAND_CURSOR));
         cmd.setContentAreaFilled(false);
-        cmd.addActionListener(new ActionListener(){
+        cmd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Model_Send_Message message = new Model_Send_Message(MessageType.EMOJI, Service.getInstance().getUser().getUserID(), user.getUserID(), data.getId() + "");
                 sendMessage(message);
                 PublicEvent.getInstance().getEventChat().sendMessage(message);
             }
-        
+
         });
         return cmd;
     }
 
-    private void sendMessage(Model_Send_Message data){
+    private void sendMessage(Model_Send_Message data) {
         Service.getInstance().getClient().emit("send_to_user", data.toJsonObject());
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -205,8 +219,9 @@ public class Panel_More extends javax.swing.JPanel {
             }
         }
     }
-    private boolean isImageFile(File file){
-        String name =file.getName().toLowerCase();
+
+    private boolean isImageFile(File file) {
+        String name = file.getName().toLowerCase();
         return name.endsWith(".jpg") || name.endsWith(".png") || name.endsWith(".jpeg") || name.endsWith(".gif");
     }
     private JPanel panelHeader;

@@ -1,6 +1,7 @@
 package com.app.component;
 
 import com.app.model.Model_File_Sender;
+import com.app.model.Model_Receive_Image;
 import java.awt.Color;
 import javax.swing.Icon;
 
@@ -20,6 +21,9 @@ public class Chat_Right extends javax.swing.JLayeredPane {
         txt.seen();
     }
 
+    public void setImage(Model_Receive_Image dataImage) {
+       txt.setImage(true, dataImage);
+    }
     public void setImage(Model_File_Sender fileSender) {
         txt.setImage(true, fileSender);
     }

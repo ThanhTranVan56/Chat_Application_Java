@@ -76,6 +76,7 @@ public class Chat_Item extends javax.swing.JLayeredPane {
         layer.add(chatImage);
         add(layer);
     }
+    
 
     public void setFile(String fileName, String fileSize) {
         JLayeredPane layer = new JLayeredPane();

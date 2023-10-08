@@ -47,6 +47,7 @@ public class Image_Item extends javax.swing.JLayeredPane {
         img.setRGB(0, 0, width, height, data, 0, width);
         Icon icon = new ImageIcon(img);
         pic.setImage(icon);
+        //Service.getInstance().addFileReceiver(dataImage.getFileID());
         try {
             Service.getInstance().addFileReceiver(dataImage.getFileID(), new EventFileReceiver(){
                 @Override
