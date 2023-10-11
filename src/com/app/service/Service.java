@@ -111,7 +111,10 @@ public class Service {
         }
         return data;
     }
-
+    
+    public void test(){
+        int x = 0;
+    }
     public void fileSendFinish(Model_File_Sender data) throws IOException {
         fileSender.remove(data);
         if (!fileSender.isEmpty()) {
