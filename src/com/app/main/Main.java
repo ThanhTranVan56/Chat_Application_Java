@@ -94,10 +94,8 @@ public class Main extends javax.swing.JFrame {
     private void saveToFile(File file) {
         JFileChooser fileChooser = new JFileChooser();
 
-        // Thiết lập thư mục mặc định cho hộp thoại lưu file
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 
-        // Đặt tên mặc định cho file
         String defaultFileName = getFileName(file.getName());
         fileChooser.setSelectedFile(new File(defaultFileName));
 
@@ -108,7 +106,6 @@ public class Main extends javax.swing.JFrame {
             String filePath = selectedFile.getAbsolutePath();
 
             try {
-                // Lưu file vào đường dẫn đã chọn
                 Files.copy(file.toPath(), selectedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 System.out.println("Lưu file vào: " + filePath);
             } catch (IOException e) {
@@ -127,7 +124,6 @@ public class Main extends javax.swing.JFrame {
 
         int userSelection = fileChooser.showSaveDialog(null);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
-            // Người dùng đã chọn một vị trí lưu
             File fileToSave = fileChooser.getSelectedFile();
             if (!fileToSave.getAbsolutePath().endsWith(".png")) {
                 fileToSave = new File(fileToSave.getAbsolutePath() + ".png");
