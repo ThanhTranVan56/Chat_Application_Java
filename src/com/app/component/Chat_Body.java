@@ -47,11 +47,17 @@ public class Chat_Body extends javax.swing.JPanel {
             item.setImage(data.getDataImage());
             item.setTime();
             body.add(item, "wrap, w 100::80%");
+        } else if (data.getMessageType() == MessageType.FILE) {
+            Chat_Left item = new Chat_Left();
+            item.setText("");
+            item.setFile(data.getDataFile());
+            item.setTime();
+            body.add(item, "wrap, w 100::80%");
         }
         repaint();
         revalidate();
     }
-    
+
     public void addItemLeft(Model_Load_Data data) {
         if (data.getMessageType() == MessageType.TEXT) {
             Chat_Left item = new Chat_Left();
@@ -67,6 +73,12 @@ public class Chat_Body extends javax.swing.JPanel {
             Chat_Left item = new Chat_Left();
             item.setText("");
             item.setImage(data.getDataImage());
+            item.setTime();
+            body.add(item, "wrap, w 100::80%");
+        } else if (data.getMessageType() == MessageType.FILE) {
+            Chat_Left item = new Chat_Left();
+            item.setText("");
+            item.setFile(data.getDataFile());
             item.setTime();
             body.add(item, "wrap, w 100::80%");
         }
@@ -115,11 +127,18 @@ public class Chat_Body extends javax.swing.JPanel {
             item.setImage(data.getFile());
             item.setTime();
             body.add(item, "wrap,al right, w 100::80%");
+        } else if (data.getMessageType() == MessageType.FILE) {
+            Chat_Right item = new Chat_Right();
+            item.setText("");
+            item.setFile(data.getFile());
+            item.setTime();
+            body.add(item, "wrap,al right, w 100::80%");
         }
         repaint();
         revalidate();
         scrollToBottom();
     }
+
     public void addItemRight(Model_Load_Data data) {
         if (data.getMessageType() == MessageType.TEXT) {
             Chat_Right item = new Chat_Right();
@@ -135,6 +154,12 @@ public class Chat_Body extends javax.swing.JPanel {
             Chat_Right item = new Chat_Right();
             item.setText("");
             item.setImage(data.getDataImage());
+            item.setTime();
+            body.add(item, "wrap,al right, w 100::80%");
+        } else if (data.getMessageType() == MessageType.FILE) {
+            Chat_Right item = new Chat_Right();
+            item.setText("");
+            item.setFile(data.getDataFile());
             item.setTime();
             body.add(item, "wrap,al right, w 100::80%");
         }
@@ -165,8 +190,8 @@ public class Chat_Body extends javax.swing.JPanel {
         repaint();
         revalidate();
     }
-    
-    public void loadData(int UID){
+
+    public void loadData(int UID) {
         Service.getInstance().getClient().emit("list_data_user", UID);
     }
 

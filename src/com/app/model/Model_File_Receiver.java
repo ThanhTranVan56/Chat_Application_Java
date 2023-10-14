@@ -7,6 +7,7 @@ import io.socket.client.Socket;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.text.DecimalFormat;
 import org.json.JSONException;
 
 public class Model_File_Receiver {
@@ -34,7 +35,15 @@ public class Model_File_Receiver {
     public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
+    
+    public String getFileName() {
+        return fileName;
+    }
 
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+    
     public String getFileExtention() {
         return fileExtention;
     }
@@ -78,6 +87,7 @@ public class Model_File_Receiver {
     private int fileID;
     private File file;
     private long fileSize;
+    private String fileName;
     private String fileExtention;
     private RandomAccessFile accFile;
     private Socket socket;
@@ -90,12 +100,12 @@ public class Model_File_Receiver {
             public void call(Object... os) {
                 if (os.length > 0) {
                     try {
-                        fileExtention = os[0].toString();
-                        fileSize = (int) os[1];
-                        file = new File(PATH_FILE + fileID + fileExtention);
+                        fileName = os[0].toString();
+                        fileExtention = os[1].toString();
+                        fileSize = (int) os[2];
+                        file = new File(PATH_FILE + fileID + "@" + fileName + fileExtention);
                         accFile = new RandomAccessFile(file,"rw");
                         event.onStartReceiving();
-                        //start save file
                         startSaveFile();
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
@@ -119,7 +129,7 @@ public class Model_File_Receiver {
                         startSaveFile();
                     } else {
                         close();
-                        event.onFinish(new File(PATH_FILE + fileID + fileExtention));
+                        event.onFinish(new File(PATH_FILE + fileID + "@" + fileName + fileExtention),getFileSizeC());
                         //remove list
                         Service.getInstance().fileReceiveFinish(Model_File_Receiver.this);
                     }
@@ -129,7 +139,24 @@ public class Model_File_Receiver {
             }
         });
     }
-    
+    private String getFileSizeC(){
+        return getFileSizeConvert(fileSize);
+    }
+    private static final String[] fileSizeUnits = {"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+    private String getFileSizeConvert(double bytes) {
+        String sizeToReturn;
+        DecimalFormat df = new DecimalFormat("0.#");
+        int index;
+        for (index = 0; index < fileSizeUnits.length; index++) {
+            if (bytes < 1024) {
+                break;
+            }
+            bytes = bytes / 1024;
+        }
+        System.out.println("Systematic file size: " + bytes + " " + fileSizeUnits[index]);
+        sizeToReturn = df.format(bytes) + " " + fileSizeUnits[index];
+        return sizeToReturn;
+    }
     private synchronized long writeFile(byte[] data) throws IOException{
         accFile.seek(accFile.length());
         accFile.write(data);
@@ -145,4 +172,6 @@ public class Model_File_Receiver {
     public void close() throws IOException{
         accFile.close();
     }
+
+   
 }

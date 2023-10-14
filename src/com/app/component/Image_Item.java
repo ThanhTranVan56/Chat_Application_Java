@@ -2,16 +2,21 @@ package com.app.component;
 
 import com.app.event.EventFileReceiver;
 import com.app.event.EventFileSender;
+import com.app.event.PublicEvent;
 import com.app.model.Model_File_Sender;
 import com.app.model.Model_Receive_Image;
 import com.app.service.Service;
 import com.app.swing.blurhash.BlurHash;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 public class Image_Item extends javax.swing.JLayeredPane {
 
@@ -20,7 +25,7 @@ public class Image_Item extends javax.swing.JLayeredPane {
     }
 
     public void setImage(Icon image, Model_File_Sender fileSender) {
-        fileSender.addEvent(new EventFileSender(){
+        fileSender.addEvent(new EventFileSender() {
             @Override
             public void onSending(double percentage) {
                 progress.setValue((int) percentage);
@@ -28,7 +33,7 @@ public class Image_Item extends javax.swing.JLayeredPane {
 
             @Override
             public void onStartSending() {
-             
+
             }
 
             @Override
@@ -38,18 +43,17 @@ public class Image_Item extends javax.swing.JLayeredPane {
         });
         pic.setImage(image);
     }
-    
+
     public void setImage(Model_Receive_Image dataImage) {
-        int width =dataImage.getWidth();
+        int width = dataImage.getWidth();
         int height = dataImage.getHeight();
         int[] data = BlurHash.decode(dataImage.getImage(), width, height, 1);
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         img.setRGB(0, 0, width, height, data, 0, width);
         Icon icon = new ImageIcon(img);
         pic.setImage(icon);
-        //Service.getInstance().addFileReceiver(dataImage.getFileID());
         try {
-            Service.getInstance().addFileReceiver(dataImage.getFileID(), new EventFileReceiver(){
+            Service.getInstance().addFileReceiver(dataImage.getFileID(), new EventFileReceiver() {
                 @Override
                 public void onReceiving(double percentage) {
                     progress.setValue((int) percentage);
@@ -57,18 +61,32 @@ public class Image_Item extends javax.swing.JLayeredPane {
 
                 @Override
                 public void onStartReceiving() {
-                
+
                 }
 
                 @Override
-                public void onFinish(File file) {
+                public void onFinish(File file, String fileSize) {
                     progress.setVisible(false);
                     pic.setImage(new ImageIcon(file.getAbsolutePath()));
+                    addEvent(pic, new ImageIcon(file.getAbsolutePath()));
                 }
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+    }
+
+    private void addEvent(Component com, Icon image) {
+        com.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        com.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                if (SwingUtilities.isLeftMouseButton(me)) {
+                    PublicEvent.getInstance().getEventImageView().viewImage(image);
+                }
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")

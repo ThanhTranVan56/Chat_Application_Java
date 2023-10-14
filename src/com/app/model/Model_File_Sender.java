@@ -27,12 +27,12 @@ public class Model_File_Sender {
         this.fileID = fileID;
     }
 
-    public String getFileExtensions() {
-        return fileExtensions;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFileExtensions(String fileExtensions) {
-        this.fileExtensions = fileExtensions;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public File getFile() {
@@ -72,7 +72,7 @@ public class Model_File_Sender {
         this.file = file;
         this.socket = socket;
         this.message = message;
-        fileExtensions = getExtensions(file.getName());
+        fileName = file.getName();
         fileSize = accFile.length();
     }
 
@@ -80,7 +80,7 @@ public class Model_File_Sender {
     }
     private Model_Send_Message message;
     private int fileID;
-    private String fileExtensions;
+    private String fileName;
     private File file;
     private long fileSize;
     private RandomAccessFile accFile;
@@ -120,7 +120,6 @@ public class Model_File_Sender {
         socket.emit("send_to_user", message.toJsonObject(), new Ack() {
             @Override
             public void call(Object... os) {
-                System.out.println("Da tra loi");
                 if (os.length > 0) {
                     int fileID = (int) os[0];
                     try {
@@ -152,11 +151,9 @@ public class Model_File_Sender {
             data.setFinish(true);
             close();
         }
-        System.out.println("bat dau send");
         socket.emit("send_file", data.toJsonObject(), new Ack() {
             @Override
             public void call(Object... os) {
-                System.out.println("send thanh cong");
                 if (os.length > 0) {
                     boolean act = (boolean) os[0];
                     if (act) {
@@ -193,10 +190,6 @@ public class Model_File_Sender {
 
     public void close() throws IOException {
         accFile.close();
-    }
-
-    private String getExtensions(String fileName) {
-        return fileName.substring(fileName.lastIndexOf("."), fileName.length());
     }
 
     public void addEvent(EventFileSender event) {

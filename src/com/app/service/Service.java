@@ -102,6 +102,7 @@ public class Service {
     }
 
     public Model_File_Sender addFile(File file, Model_Send_Message message) throws IOException {
+        
         Model_File_Sender data = new Model_File_Sender(file, client, message);
         message.setFile(data);
         fileSender.add(data);
@@ -112,9 +113,6 @@ public class Service {
         return data;
     }
     
-    public void test(){
-        int x = 0;
-    }
     public void fileSendFinish(Model_File_Sender data) throws IOException {
         fileSender.remove(data);
         if (!fileSender.isEmpty()) {

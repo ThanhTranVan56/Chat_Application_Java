@@ -1,6 +1,7 @@
 package com.app.component;
 
 import com.app.model.Model_File_Sender;
+import com.app.model.Model_Receive_File;
 import com.app.model.Model_Receive_Image;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -49,7 +50,7 @@ public class Chat_Item extends javax.swing.JLayeredPane {
     public void setTime(String time) {
         JLayeredPane layer = new JLayeredPane();
         layer.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-        layer.setBorder(new EmptyBorder(0, 5, 6, 5));
+        layer.setBorder(new EmptyBorder(0, 5, 2, 5));
         label = new JLabel(time);
         label.setForeground(new Color(110, 110, 110));
         label.setHorizontalTextPosition(JLabel.LEFT);
@@ -77,12 +78,30 @@ public class Chat_Item extends javax.swing.JLayeredPane {
         add(layer);
     }
     
-
-    public void setFile(String fileName, String fileSize) {
+    public void setFile(boolean right, Model_Receive_File dataFile) {
+        JLayeredPane layer = new JLayeredPane();
+        layer.setLayout(new FlowLayout(FlowLayout.LEFT));
+        layer.setBorder(new EmptyBorder(0, 2, 0, 0));
+        Chat_File chatFile = new Chat_File(right);
+        chatFile.setFile(dataFile);
+        layer.add(chatFile);
+        add(layer);
+    }
+    public void setFile(boolean right, Model_File_Sender fileSender) {
+        JLayeredPane layer = new JLayeredPane();
+        layer.setLayout(new FlowLayout(FlowLayout.LEFT));
+        layer.setBorder(new EmptyBorder(0, 2, 0, 0));
+        Chat_File chatFile = new Chat_File(right);
+        chatFile.setFile(fileSender);
+        layer.add(chatFile);
+        add(layer);
+    }
+    
+    public void setFile(boolean right,String fileName, String fileSize) {
         JLayeredPane layer = new JLayeredPane();
         layer.setLayout(new FlowLayout(FlowLayout.LEFT));
         layer.setBorder(new EmptyBorder(0, 2, 2, 0));
-        Chat_File chatFile = new Chat_File();
+        Chat_File chatFile = new Chat_File(right);
         chatFile.setFile(fileName, fileSize);
         layer.add(chatFile);
         add(layer);

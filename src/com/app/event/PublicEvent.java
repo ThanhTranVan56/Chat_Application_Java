@@ -10,6 +10,7 @@ public class PublicEvent {
     private EventChat eventChat;
     private EventLogin eventLogin;
     private EventMenuLeft eventMenuLeft;
+    private EventSaveFile eventSaveFile;
 
     public static PublicEvent getInstance() {
         if (instance == null) {
@@ -41,6 +42,9 @@ public class PublicEvent {
     public void addEventMenuLeft(EventMenuLeft event) {
         this.eventMenuLeft = event;
     }
+    public void addEventSaveFile(EventSaveFile eventSaveFile) {
+        this.eventSaveFile = eventSaveFile;
+    }
  
     public EventMain getEventMain() {
         return eventMain;
@@ -61,4 +65,10 @@ public class PublicEvent {
     public EventMenuLeft getEventMenuLeft() {
         return eventMenuLeft;
     }
+
+    public EventSaveFile getEventSaveFile() {
+        return eventSaveFile;
+    }
+
+    
 }

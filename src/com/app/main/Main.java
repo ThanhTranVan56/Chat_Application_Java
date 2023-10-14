@@ -2,16 +2,27 @@ package com.app.main;
 
 import com.app.event.EventImageView;
 import com.app.event.EventMain;
+import com.app.event.EventSaveFile;
 import com.app.event.PublicEvent;
 import com.app.model.Model_User_Account;
 import com.app.service.Service;
 import com.app.swing.ComponentResizer;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
 public class Main extends javax.swing.JFrame {
 
@@ -48,12 +59,12 @@ public class Main extends javax.swing.JFrame {
                 login.setVisible(false);
                 Service.getInstance().getClient().emit("list_user", Service.getInstance().getUser().getUserID());
             }
-            
+
             @Override
             public void selectUser(Model_User_Account user) {
                 home.setUser(user);
             }
-            
+
             @Override
             public void updateUser(Model_User_Account user) {
                 home.updateUser(user);
@@ -68,8 +79,85 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void saveImage(Icon image) {
                 System.out.println("Save Image");
+                showSaveImageDialog(image);
             }
         });
+        PublicEvent.getInstance().addEventSaveFile(new EventSaveFile() {
+            @Override
+            public void saveFile(File file) {
+                System.out.println("Save File");
+                saveToFile(file);
+            }
+        });
+    }
+
+    private void saveToFile(File file) {
+        JFileChooser fileChooser = new JFileChooser();
+
+        // Thiết lập thư mục mặc định cho hộp thoại lưu file
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+
+        // Đặt tên mặc định cho file
+        String defaultFileName = getFileName(file.getName());
+        fileChooser.setSelectedFile(new File(defaultFileName));
+
+        int result = fileChooser.showSaveDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+
+            try {
+                // Lưu file vào đường dẫn đã chọn
+                Files.copy(file.toPath(), selectedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Lưu file vào: " + filePath);
+            } catch (IOException e) {
+                System.err.println("Lỗi khi lưu file: " + e.getMessage());
+            }
+        } else if (result == JFileChooser.CANCEL_OPTION) {
+            System.out.println("Hủy bỏ lưu file");
+        }
+    }
+
+    private void showSaveImageDialog(Icon image) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save Image");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Images", "jpg", "jpeg", "png", "gif");
+        fileChooser.addChoosableFileFilter(filter);
+
+        int userSelection = fileChooser.showSaveDialog(null);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            // Người dùng đã chọn một vị trí lưu
+            File fileToSave = fileChooser.getSelectedFile();
+            if (!fileToSave.getAbsolutePath().endsWith(".png")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".png");
+            }
+            saveIconToFile(image, fileToSave);
+        }
+    }
+
+    private void saveIconToFile(Icon image, File file) {
+        try {
+            BufferedImage bufferedImage = new BufferedImage(image.getIconWidth(), image.getIconHeight(),
+                    BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = bufferedImage.createGraphics();
+            image.paintIcon(null, g2d, 0, 0);
+            g2d.dispose();
+            String format = "png";
+            ImageIO.write(bufferedImage, format, file);
+
+            System.out.println("Image saved successfully.");
+        } catch (IOException e) {
+            System.out.println("Failed to save image: " + e.getMessage());
+        }
+    }
+
+    private String getFileName(String fileName) {
+        int atSymbolIndex = fileName.lastIndexOf("@");
+        if (atSymbolIndex != -1) {
+            return fileName.substring(atSymbolIndex + 1, fileName.length());
+        }
+        return fileName;
     }
 
     @SuppressWarnings("unchecked")

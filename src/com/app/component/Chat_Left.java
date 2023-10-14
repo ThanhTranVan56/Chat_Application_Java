@@ -1,5 +1,6 @@
 package com.app.component;
 
+import com.app.model.Model_Receive_File;
 import com.app.model.Model_Receive_Image;
 import java.awt.Color;
 import javax.swing.Icon;
@@ -27,8 +28,12 @@ public class Chat_Left extends javax.swing.JLayeredPane {
         //txt.setImage(false, image);
     }
 
+     public void setFile(Model_Receive_File dataFile) {
+       txt.setFile(false, dataFile);
+    }
+     
     public void setFile(String fileName, String fileSize) {
-        txt.setFile(fileName, fileSize);
+        txt.setFile(false,fileName, fileSize);
     }
 
     public void setEmoji(Icon icon){

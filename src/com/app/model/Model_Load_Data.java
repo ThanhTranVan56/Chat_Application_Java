@@ -5,6 +5,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Model_Load_Data {
+    
+    public Model_Receive_File getDataFile() {
+        return dataFile;
+    }
+
+    public void setDataFile(Model_Receive_File dataFile) {
+        this.dataFile = dataFile;
+    }
 
     public Model_Receive_Image getDataImage() {
         return dataImage;
@@ -61,6 +69,9 @@ public class Model_Load_Data {
             if(!obj.isNull("dataImage")){
                 dataImage = new Model_Receive_Image(obj.get("dataImage"));
             }
+            if(!obj.isNull("dataFile")){
+                dataFile = new Model_Receive_File(obj.get("dataFile"));
+            }
         } catch (JSONException e) {
             System.err.println(e);
         }
@@ -70,25 +81,27 @@ public class Model_Load_Data {
     private int fromUserID;
     private int toUserID;
     private String text;
-    private Model_File_Sender file;
+    private Model_Receive_File dataFile;
     private Model_Receive_Image dataImage;
     
-    public JSONObject toJsonObject() {
-        try {
-            JSONObject json = new JSONObject();
-            json.put("messageType", messageType.getValue());
-            json.put("fromUserID", fromUserID);
-            json.put("toUserID", toUserID);
-            json.put("text", text);
-            if(messageType == MessageType.FILE || messageType == MessageType.IMAGE){
-                json.put("text", file.getFileExtensions());
-            } else{
-                json.put("text", text);
-            }
-            return json;
-        } catch (JSONException e) {
-            return null;
-        }
-    }
+//    public JSONObject toJsonObject() {
+//        try {
+//            JSONObject json = new JSONObject();
+//            json.put("messageType", messageType.getValue());
+//            json.put("fromUserID", fromUserID);
+//            json.put("toUserID", toUserID);
+//            json.put("text", text);
+//            if(messageType == MessageType.FILE || messageType == MessageType.IMAGE){
+//                json.put("text", dataFile.getFileName());
+//            } else{
+//                json.put("text", text);
+//            }
+//            return json;
+//        } catch (JSONException e) {
+//            return null;
+//        }
+//    }
+
+
 }
 

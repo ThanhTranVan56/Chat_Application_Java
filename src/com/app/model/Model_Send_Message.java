@@ -70,7 +70,7 @@ public class Model_Send_Message {
             json.put("toUserID", toUserID);
             json.put("text", text);
             if(messageType == MessageType.FILE || messageType == MessageType.IMAGE){
-                json.put("text", file.getFileExtensions());
+                json.put("text", file.getFileName());
             } else{
                 json.put("text", text);
             }
