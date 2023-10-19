@@ -5,6 +5,7 @@ import com.app.emoji.Emogi;
 import com.app.emoji.Model_Emoji;
 import com.app.event.PublicEvent;
 import com.app.main.Main;
+import com.app.model.Model_Group;
 import com.app.model.Model_Send_Message;
 import com.app.model.Model_User_Account;
 import com.app.service.Service;
@@ -32,11 +33,20 @@ public class Panel_More extends javax.swing.JPanel {
         this.user = user;
     }
 
+    public void setGroup(Model_Group group) {
+        this.group = group;
+    }
+
     public Model_User_Account getUser() {
         return user;
     }
 
+    public Model_Group getGroup() {
+        return group;
+    }
+
     private Model_User_Account user;
+    private Model_Group group;
 
     public Panel_More() {
         initComponents();
@@ -87,9 +97,16 @@ public class Panel_More extends javax.swing.JPanel {
                     File files[] = ch.getSelectedFiles();
                     try {
                         for (File file : files) {
-                            Model_Send_Message message = new Model_Send_Message(MessageType.IMAGE, Service.getInstance().getUser().getUserID(), user.getUserID(), "");
-                            Service.getInstance().addFile(file, message);
-                            PublicEvent.getInstance().getEventChat().sendMessage(message);
+                            if (user != null) {
+                                Model_Send_Message message = new Model_Send_Message(MessageType.IMAGE, Service.getInstance().getUser().getUserID(), user.getUserID(), "");
+                                Service.getInstance().addFile(file, message);
+                                PublicEvent.getInstance().getEventChat().sendMessage(message);
+                            } else {
+                                System.out.println("send to group: " + group.getGroupName());
+                                Model_Send_Message message = new Model_Send_Message(MessageType.IMAGE, Service.getInstance().getUser().getUserID(), group.getGroupID(), "");
+                                Service.getInstance().addFileGroup(file, message);
+                                PublicEvent.getInstance().getEventChat().sendMessage(message);
+                            }
                         }
                     } catch (IOException e) {
                         System.err.println(e);
@@ -115,9 +132,16 @@ public class Panel_More extends javax.swing.JPanel {
                     File files[] = ch.getSelectedFiles();
                     try {
                         for (File file : files) {
-                            Model_Send_Message message = new Model_Send_Message(MessageType.FILE, Service.getInstance().getUser().getUserID(), user.getUserID(), "");
-                            Service.getInstance().addFile(file, message);
-                            PublicEvent.getInstance().getEventChat().sendMessage(message);
+                            if (user != null) {
+                                Model_Send_Message message = new Model_Send_Message(MessageType.FILE, Service.getInstance().getUser().getUserID(), user.getUserID(), "");
+                                Service.getInstance().addFile(file, message);
+                                PublicEvent.getInstance().getEventChat().sendMessage(message);
+                            } else {
+                                Model_Send_Message message = new Model_Send_Message(MessageType.FILE, Service.getInstance().getUser().getUserID(), group.getGroupID(), "");
+                                Service.getInstance().addFileGroup(file, message);
+                                PublicEvent.getInstance().getEventChat().sendMessage(message);
+                            }
+
                         }
                     } catch (IOException e) {
                         System.err.println(e);
@@ -178,9 +202,16 @@ public class Panel_More extends javax.swing.JPanel {
         cmd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                Model_Send_Message message = new Model_Send_Message(MessageType.EMOJI, Service.getInstance().getUser().getUserID(), user.getUserID(), data.getId() + "");
-                sendMessage(message);
-                PublicEvent.getInstance().getEventChat().sendMessage(message);
+                if (user != null) {
+                    Model_Send_Message message = new Model_Send_Message(MessageType.EMOJI, Service.getInstance().getUser().getUserID(), user.getUserID(), data.getId() + "");
+                    sendMessage(message);
+                    PublicEvent.getInstance().getEventChat().sendMessage(message);
+                } else {
+                    Model_Send_Message message = new Model_Send_Message(MessageType.EMOJI, Service.getInstance().getUser().getUserID(), group.getGroupID(), data.getId() + "");
+                    sendMessageToGroup(message);
+                    PublicEvent.getInstance().getEventChat().sendMessage(message);
+                }
+
             }
 
         });
@@ -189,6 +220,10 @@ public class Panel_More extends javax.swing.JPanel {
 
     private void sendMessage(Model_Send_Message data) {
         Service.getInstance().getClient().emit("send_to_user", data.toJsonObject());
+    }
+
+    private void sendMessageToGroup(Model_Send_Message data) {
+        Service.getInstance().getClient().emit("send_to_group", data.toJsonObject());
     }
 
     @SuppressWarnings("unchecked")

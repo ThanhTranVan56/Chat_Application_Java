@@ -11,6 +11,8 @@ public class PublicEvent {
     private EventLogin eventLogin;
     private EventMenuLeft eventMenuLeft;
     private EventSaveFile eventSaveFile;
+    private EventReGroup eventReGroup;
+    private EventMenuRight eventMenuRight;
 
     public static PublicEvent getInstance() {
         if (instance == null) {
@@ -45,7 +47,14 @@ public class PublicEvent {
     public void addEventSaveFile(EventSaveFile eventSaveFile) {
         this.eventSaveFile = eventSaveFile;
     }
- 
+    
+    public void addEventReGroup(EventReGroup eventReGroup) {
+        this.eventReGroup = eventReGroup;
+    }
+    public void addEventMenuRight(EventMenuRight eventMenuRight) {
+        this.eventMenuRight = eventMenuRight;
+    }
+    
     public EventMain getEventMain() {
         return eventMain;
     }
@@ -69,6 +78,18 @@ public class PublicEvent {
     public EventSaveFile getEventSaveFile() {
         return eventSaveFile;
     }
+
+    public EventReGroup getEventReGroup() {
+        return eventReGroup;
+    }
+
+    public EventMenuRight getEventMenuRight() {
+        return eventMenuRight;
+    }
+
+    
+
+    
 
     
 }

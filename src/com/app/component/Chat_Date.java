@@ -1,15 +1,24 @@
 package com.app.component;
 
+import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
+
 public class Chat_Date extends javax.swing.JLayeredPane {
 
-   
     public Chat_Date() {
         initComponents();
     }
-    
-    public void setDate(String date){
+
+    public void setDate(String date) {
         lbDate.setText(date);
     }
+
+    public void setDate(Timestamp dateTime) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String formattedDate = dateFormat.format(dateTime);
+        lbDate.setText(formattedDate);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

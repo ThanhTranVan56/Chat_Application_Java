@@ -4,10 +4,12 @@ import com.app.event.EventImageView;
 import com.app.event.EventMain;
 import com.app.event.EventSaveFile;
 import com.app.event.PublicEvent;
+import com.app.model.Model_Group;
 import com.app.model.Model_User_Account;
 import com.app.service.Service;
 import com.app.swing.ComponentResizer;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import io.socket.client.Ack;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -16,13 +18,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
 
 public class Main extends javax.swing.JFrame {
 
@@ -58,6 +61,9 @@ public class Main extends javax.swing.JFrame {
                 home.setVisible(true);
                 login.setVisible(false);
                 Service.getInstance().getClient().emit("list_user", Service.getInstance().getUser().getUserID());
+                //list_group
+                Service.getInstance().getClient().emit("list_group");
+                home.setProfile(Service.getInstance().getUser());
             }
 
             @Override
@@ -68,6 +74,31 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void updateUser(Model_User_Account user) {
                 home.updateUser(user);
+            }
+
+            @Override
+            public void selectGroup(Model_Group group) {
+                Service.getInstance().getClient().emit("get_member_group", group.getGroupID(), new Ack() {
+                    @Override
+                    public void call(Object... os) {
+                        if (os.length > 0) {
+                            List<Model_User_Account> listU = new ArrayList<>();
+                            for (Object o : os) {
+                                Model_User_Account u = new Model_User_Account(o);
+                                    listU.add(u);
+                            }
+                            System.out.print("List member: " + listU.size());
+                            PublicEvent.getInstance().getEventReGroup().memberInGroup(listU);
+                        }
+                    }
+                });
+                home.setGroup(group);
+                System.out.println(group.getGroupID() + "name" + group.getGroupName());
+            }
+
+            @Override
+            public void waitGroup() {
+                home.setWaitGroup();
             }
         });
         PublicEvent.getInstance().addEventImageView(new EventImageView() {

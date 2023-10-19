@@ -3,6 +3,7 @@ package com.app.component;
 import com.app.model.Model_File_Sender;
 import com.app.model.Model_Receive_File;
 import com.app.model.Model_Receive_Image;
+import com.app.model.Model_Receive_Image_Group;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
@@ -78,6 +79,16 @@ public class Chat_Item extends javax.swing.JLayeredPane {
         add(layer);
     }
     
+    public void setImage(boolean right, Model_Receive_Image_Group dataImage) {
+        JLayeredPane layer = new JLayeredPane();
+        layer.setLayout(new FlowLayout(right ? FlowLayout.RIGHT : FlowLayout.LEFT));
+        layer.setBorder(new EmptyBorder(0, 5, 2, 5));
+        Chat_Image chatImage = new Chat_Image(right);
+        chatImage.addImage(dataImage);
+        layer.add(chatImage);
+        add(layer);
+    }
+    
     public void setFile(boolean right, Model_Receive_File dataFile) {
         JLayeredPane layer = new JLayeredPane();
         layer.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -87,6 +98,7 @@ public class Chat_Item extends javax.swing.JLayeredPane {
         layer.add(chatFile);
         add(layer);
     }
+    
     public void setFile(boolean right, Model_File_Sender fileSender) {
         JLayeredPane layer = new JLayeredPane();
         layer.setLayout(new FlowLayout(FlowLayout.LEFT));

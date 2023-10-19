@@ -45,8 +45,8 @@ public class File_Item extends javax.swing.JLayeredPane {
         pic.setImage(image);
         lbFileName.setText(fileSender.getFile().getName());
         lbFileSize.setText(fileSender.getFileSizeConvert(fileSender.getGileSize()));
-        addEvent(pic,fileSender.getFile());
-        addEvent(jPanel2,fileSender.getFile());
+        addEvent(pic, fileSender.getFile());
+        addEvent(jPanel2, fileSender.getFile());
     }
 
     public void setFile(Model_Receive_File dataFile) {
@@ -71,14 +71,15 @@ public class File_Item extends javax.swing.JLayeredPane {
 
                     lbFileName.setText(getFileName(file.getName()));
                     lbFileSize.setText(fileSize);
-                    addEvent(pic,file);
-                    addEvent(jPanel2,file);
+                    addEvent(pic, file);
+                    addEvent(jPanel2, file);
                 }
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     private void addEvent(Component com, File file) {
         com.setCursor(new Cursor(Cursor.HAND_CURSOR));
         com.addMouseListener(new MouseAdapter() {
@@ -90,6 +91,7 @@ public class File_Item extends javax.swing.JLayeredPane {
             }
         });
     }
+
     private Dimension getAutoSize(Icon image, int w, int h) {
         if (w > image.getIconWidth()) {
             w = image.getIconWidth();
@@ -177,10 +179,10 @@ public class File_Item extends javax.swing.JLayeredPane {
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(pic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(3, 3, 3))))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 

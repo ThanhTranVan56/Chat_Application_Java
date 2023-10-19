@@ -2,7 +2,6 @@ package com.app.component;
 
 import com.app.model.Model_File_Sender;
 import com.app.model.Model_Receive_File;
-import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileSystemView;
@@ -35,6 +34,7 @@ public class Chat_File extends javax.swing.JLayeredPane {
         //addEvent(pic, image);
         add(pic, "wrap");
     }
+    
 
     public void setFile(String fileName, String size) {
         //lbFileName.setText(fileName);
@@ -49,11 +49,11 @@ public class Chat_File extends javax.swing.JLayeredPane {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 294, Short.MAX_VALUE)
+            .addGap(0, 209, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 54, Short.MAX_VALUE)
+            .addGap(0, 45, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

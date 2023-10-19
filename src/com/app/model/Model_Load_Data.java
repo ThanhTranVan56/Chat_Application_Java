@@ -1,6 +1,8 @@
 package com.app.model;
 
 import com.app.apps.MessageType;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,6 +55,14 @@ public class Model_Load_Data {
         this.text = text;
     }
     
+    public Timestamp getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Timestamp dateTime) {
+        this.dateTime = dateTime;
+    }
+    
     public Model_Load_Data(MessageType messageType, int fromUserID, int toUserID, String text){
         this.messageType = messageType;
         this.fromUserID = fromUserID;
@@ -60,12 +70,14 @@ public class Model_Load_Data {
         this.text = text;
     }
     
-    public Model_Load_Data(Object json){
+    public Model_Load_Data(Object json) throws ParseException{
         JSONObject obj = (JSONObject) json;
         try {
             messageType = MessageType.toMessageType(obj.getInt("messageType"));
             fromUserID = obj.getInt("fromUserID");
             text = obj.getString("text");
+            long timestamp = obj.getLong("dateTime");
+            dateTime = new Timestamp(timestamp);
             if(!obj.isNull("dataImage")){
                 dataImage = new Model_Receive_Image(obj.get("dataImage"));
             }
@@ -81,6 +93,7 @@ public class Model_Load_Data {
     private int fromUserID;
     private int toUserID;
     private String text;
+    private Timestamp  dateTime;
     private Model_Receive_File dataFile;
     private Model_Receive_Image dataImage;
     
@@ -101,6 +114,10 @@ public class Model_Load_Data {
 //            return null;
 //        }
 //    }
+
+
+
+    
 
 
 }

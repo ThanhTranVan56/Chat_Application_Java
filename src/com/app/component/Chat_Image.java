@@ -3,11 +3,13 @@ package com.app.component;
 import com.app.event.PublicEvent;
 import com.app.model.Model_File_Sender;
 import com.app.model.Model_Receive_Image;
+import com.app.model.Model_Receive_Image_Group;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
@@ -30,6 +32,13 @@ public class Chat_Image extends javax.swing.JLayeredPane {
     }
 
     public void addImage(Model_Receive_Image dataImage) {
+        Image_Item pic = new Image_Item();
+        pic.setPreferredSize(new Dimension(dataImage.getWidth(), dataImage.getHeight()));
+        pic.setImage(dataImage);
+        add(pic, "wrap");
+    }
+    
+    public void addImage(Model_Receive_Image_Group dataImage){
         Image_Item pic = new Image_Item();
         pic.setPreferredSize(new Dimension(dataImage.getWidth(), dataImage.getHeight()));
         pic.setImage(dataImage);

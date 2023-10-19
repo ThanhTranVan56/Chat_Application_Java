@@ -4,6 +4,7 @@ import com.app.apps.MessageType;
 import com.app.emoji.Emogi;
 import com.app.model.Model_Load_Data;
 import com.app.model.Model_Receive_Message;
+import com.app.model.Model_Receive_Message_Group;
 import com.app.model.Model_Send_Message;
 import com.app.service.Service;
 import com.app.swing.ScrollBar;
@@ -11,10 +12,8 @@ import java.awt.Adjustable;
 import java.awt.Color;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
+import java.sql.Timestamp;
 import net.miginfocom.swing.MigLayout;
 
 public class Chat_Body extends javax.swing.JPanel {
@@ -28,8 +27,9 @@ public class Chat_Body extends javax.swing.JPanel {
         body.setLayout(new MigLayout("fillx", "", "5[]5"));
         sp.setVerticalScrollBar(new ScrollBar());
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
+        repaint();
+        revalidate();
     }
-
     public void addItemLeft(Model_Receive_Message data) {
         if (data.getMessageType() == MessageType.TEXT) {
             Chat_Left item = new Chat_Left();
@@ -57,7 +57,27 @@ public class Chat_Body extends javax.swing.JPanel {
         repaint();
         revalidate();
     }
-
+    
+    public void addItemLeft(Model_Receive_Message_Group data) {
+        if (data.getMessageType() == MessageType.IMAGE) {
+            Chat_Left item = new Chat_Left();
+            item.setText("");
+            item.setImage(data.getDataImage());
+            item.setTime();
+            body.add(item, "wrap, w 100::80%");
+        } 
+//        else if (data.getMessageType() == MessageType.FILE) {
+//            Chat_Left item = new Chat_Left();
+//            item.setText("");
+//            System.out.println("fileExtension: "+data.getDataFile().getFileExtension());
+//            item.setFile(data.getDataFile());
+//            item.setTime();
+//            body.add(item, "wrap, w 100::80%");
+//        }
+        repaint();
+        revalidate();
+    }
+    
     public void addItemLeft(Model_Load_Data data) {
         if (data.getMessageType() == MessageType.TEXT) {
             Chat_Left item = new Chat_Left();
@@ -184,15 +204,28 @@ public class Chat_Body extends javax.swing.JPanel {
         body.repaint();
         body.revalidate();
     }
+    
+    public void addDate(Timestamp dateTime) {
+        Chat_Date item = new Chat_Date();
+        item.setDate(dateTime);
+        body.add(item, "wrap, al center");
+        body.repaint();
+        body.revalidate();
+    }
 
     public void clearChat() {
         body.removeAll();
+        sp.setBackground(Color.WHITE);
+        body.setBackground( Color.WHITE);
         repaint();
         revalidate();
     }
-
+    
     public void loadData(int UID) {
-        Service.getInstance().getClient().emit("list_data_user", UID);
+        String toID = String.valueOf(UID);
+        String youID = String.valueOf(Service.getInstance().getUser().getUserID());
+        String id = toID + "@"+ youID;
+        Service.getInstance().getClient().emit("list_data_user", id);
     }
 
     @SuppressWarnings("unchecked")
@@ -225,7 +258,7 @@ public class Chat_Body extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sp)
+            .addComponent(sp, javax.swing.GroupLayout.DEFAULT_SIZE, 677, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

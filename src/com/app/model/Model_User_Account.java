@@ -61,7 +61,6 @@ public class Model_User_Account {
             gender = obj.getString("gender");
             image = obj.getString("image");
             status = obj.getBoolean("status");
-            
         } catch (JSONException e) {
             System.err.println(e);
         }

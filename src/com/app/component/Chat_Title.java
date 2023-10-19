@@ -1,5 +1,6 @@
 package com.app.component;
 
+import com.app.model.Model_Group;
 import com.app.model.Model_User_Account;
 
 public class Chat_Title extends javax.swing.JPanel {
@@ -7,8 +8,13 @@ public class Chat_Title extends javax.swing.JPanel {
     public Model_User_Account getUser() {
         return user;
     }
+    
+    public Model_Group getGroup(){
+        return group;
+    }
 
     private Model_User_Account user;
+    private Model_Group group;
 
     public Chat_Title() {
         initComponents();
@@ -23,7 +29,12 @@ public class Chat_Title extends javax.swing.JPanel {
             setStatusText("Offline");
         }
     }
-
+    
+    public void setGroupName(Model_Group group) {
+        this.group = group;
+        lbName.setText(group.getGroupName());
+    }
+    
     public void updateUser(Model_User_Account user) {
         if (this.user == user) {
             lbName.setText(user.getUserName());
@@ -35,6 +46,11 @@ public class Chat_Title extends javax.swing.JPanel {
         }
     }
 
+    public void updateGroup(Model_Group group) {
+        if (this.group == group) {
+            lbName.setText(group.getGroupName());
+        }
+    }
     private void statusActive() {
         lbStatus.setText("Active Now");
         lbStatus.setForeground(new java.awt.Color(46, 253, 61));
@@ -44,7 +60,8 @@ public class Chat_Title extends javax.swing.JPanel {
         lbStatus.setText(text);
         lbStatus.setForeground(new java.awt.Color(160, 160, 160));
     }
-
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

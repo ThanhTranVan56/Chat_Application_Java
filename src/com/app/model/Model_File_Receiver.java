@@ -103,7 +103,8 @@ public class Model_File_Receiver {
                         fileName = os[0].toString();
                         fileExtention = os[1].toString();
                         fileSize = (int) os[2];
-                        file = new File(PATH_FILE + fileID + "@" + fileName + fileExtention);
+                        int clientID = Service.getInstance().getUser().getUserID();
+                        file = new File(PATH_FILE + fileID + clientID + "@" + fileName + fileExtention);
                         accFile = new RandomAccessFile(file,"rw");
                         event.onStartReceiving();
                         startSaveFile();
@@ -129,7 +130,8 @@ public class Model_File_Receiver {
                         startSaveFile();
                     } else {
                         close();
-                        event.onFinish(new File(PATH_FILE + fileID + "@" + fileName + fileExtention),getFileSizeC());
+                         int clientID = Service.getInstance().getUser().getUserID();
+                        event.onFinish(new File(PATH_FILE + fileID + clientID + "@" + fileName + fileExtention),getFileSizeC());
                         //remove list
                         Service.getInstance().fileReceiveFinish(Model_File_Receiver.this);
                     }

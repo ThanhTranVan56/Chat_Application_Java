@@ -2,9 +2,18 @@ package com.app.component;
 
 import com.app.event.PublicEvent;
 import com.app.model.Model_User_Account;
+import com.app.service.Service;
+import com.app.swing.blurhash.BlurHash;
+import io.socket.client.Ack;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class Item_Peoples extends javax.swing.JPanel {
 
@@ -14,21 +23,76 @@ public class Item_Peoples extends javax.swing.JPanel {
 
     private boolean mouseOver;
     private final Model_User_Account user;
+    private final String PATH_FILE = "client_data/avata/";
 
     public Item_Peoples(Model_User_Account user) {
         initComponents();
         this.user = user;
         lb.setText(user.getUserName());
         activeStatus.setActive(user.isStatus());
-         if(user.isStatus()){
+        if ("1".equals(user.getImage())) {
+            String filePath = PATH_FILE + user.getUserID() + user.getUserName() + "avata.jpg";
+            File file = new File(filePath);
+            if (file.exists()) {
+                imageAvatar1.setImage(new ImageIcon(file.getAbsolutePath()));
+                repaint();
+            } else {
+                getAvata(user.getUserID());
+            }
+           
+
+        }
+        if (user.isStatus()) {
             lbStatus.setForeground(new java.awt.Color(62, 146, 49));
-        } 
+        }
         init();
+    }
+
+    private void getAvata(int userID) {
+        Service.getInstance().getClient().emit("get_avata_user", userID, new Ack() {
+            @Override
+            public void call(Object... os) {
+                if (os.length > 0) {
+                    byte[] data = (byte[]) os[0];
+                    String filePath = PATH_FILE + user.getUserID() + user.getUserName() + "avata.jpg";
+                    try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                        fos.write(data);
+                        System.out.println("File saved successfully.");
+                    } catch (IOException e) {
+                        System.err.println("Error saving file: " + e.getMessage());
+                    }
+                    imageAvatar1.setImage(new ImageIcon(data));
+                    repaint();
+                }
+            }
+        });
     }
 
     public void updateStatus() {
         activeStatus.setActive(user.isStatus());
-        lbStatus.setForeground(new java.awt.Color(62, 146, 49));
+        if(user.isStatus())
+            lbStatus.setForeground(new java.awt.Color(62, 146, 49));
+        else
+            lbStatus.setForeground(new java.awt.Color(137,137,137));
+    }
+    public void updateAvata(int userID) {
+        Service.getInstance().getClient().emit("get_avata_user", userID, new Ack() {
+            @Override
+            public void call(Object... os) {
+                if (os.length > 0) {
+                    byte[] data = (byte[]) os[0];
+                    String filePath = PATH_FILE + user.getUserID() + user.getUserName() + "avata.jpg";
+                    try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                        fos.write(data);
+                        System.out.println("File saved successfully.");
+                    } catch (IOException e) {
+                        System.err.println("Error saving file: " + e.getMessage());
+                    }
+                    imageAvatar1.setImage(new ImageIcon(data));
+                    repaint();
+                }
+            }
+        });
     }
 
     private void init() {
@@ -44,14 +108,31 @@ public class Item_Peoples extends javax.swing.JPanel {
                 setBackground(new Color(242, 242, 242));
                 mouseOver = false;
             }
-            
+
             @Override
             public void mouseReleased(MouseEvent me) {
-                if(mouseOver){
+                if (mouseOver) {
                     PublicEvent.getInstance().getEventMain().selectUser(user);
                 }
             }
         });
+    }
+
+    public static ImageIcon convertToImageIcon(String blurHash) throws IOException {
+        int width = 250; // Độ rộng mong muốn của ảnh
+        int height = 300; // Chiều cao mong muốn của ảnh
+        double punch = 1.0; // Giá trị punch (tùy chọn)
+        int bufferedImageType = BufferedImage.TYPE_INT_ARGB; // Loại BufferedImage (tùy chọn)
+        System.out.println("duoi:  " + blurHash);
+        BufferedImage bufferedImage = BlurHash.decodeAndDraw(blurHash, width, height, punch, bufferedImageType);
+        String filePath = "client_data/avata.png";
+        saveImage(bufferedImage, filePath);
+        return new ImageIcon(bufferedImage);
+    }
+
+    public static void saveImage(BufferedImage image, String filePath) throws IOException {
+        File outputFile = new File(filePath);
+        ImageIO.write(image, "png", outputFile);
     }
 
     @SuppressWarnings("unchecked")

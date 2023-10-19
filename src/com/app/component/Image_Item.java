@@ -5,6 +5,7 @@ import com.app.event.EventFileSender;
 import com.app.event.PublicEvent;
 import com.app.model.Model_File_Sender;
 import com.app.model.Model_Receive_Image;
+import com.app.model.Model_Receive_Image_Group;
 import com.app.service.Service;
 import com.app.swing.blurhash.BlurHash;
 import java.awt.Component;
@@ -14,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
@@ -74,9 +76,26 @@ public class Image_Item extends javax.swing.JLayeredPane {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
     }
 
+    public void setImage(Model_Receive_Image_Group dataImage){
+        int width = dataImage.getWidth();
+        int height = dataImage.getHeight();
+        int[] data = BlurHash.decode(dataImage.getImage(), width, height, 1);
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, width, height, data, 0, width);
+        Icon icon = new ImageIcon(img);
+        pic.setImage(icon);
+        progress.setVisible(false);
+        dataImage.bufferedImage();
+        String filepath = "client_data/" + Service.getInstance().getUser().getUserID() + "@" + dataImage.getFileName() + dataImage.getFileExtension();
+        File file = new File(filepath);             
+        ImageIcon imageIcon = new ImageIcon(file.getAbsolutePath());
+        pic.setImage(imageIcon);
+    }
+
+    //addEvent(pic, new ImageIcon(dataImage.bufferedImage().getAbsolutePath()));
     private void addEvent(Component com, Icon image) {
         com.setCursor(new Cursor(Cursor.HAND_CURSOR));
         com.addMouseListener(new MouseAdapter() {

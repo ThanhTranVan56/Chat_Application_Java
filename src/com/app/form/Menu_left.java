@@ -1,9 +1,12 @@
 package com.app.form;
 
+import com.app.component.Item_Group;
 import com.app.component.Item_Peoples;
 import com.app.event.EventMenuLeft;
 import com.app.event.PublicEvent;
+import com.app.model.Model_Group;
 import com.app.model.Model_User_Account;
+import com.app.service.Service;
 import com.app.swing.ScrollBar;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -13,6 +16,7 @@ import net.miginfocom.swing.MigLayout;
 public class Menu_left extends javax.swing.JPanel {
 
     private List<Model_User_Account> userAccount;
+    private List<Model_Group> group;
 
     public Menu_left() {
         initComponents();
@@ -23,12 +27,44 @@ public class Menu_left extends javax.swing.JPanel {
         sp.setVerticalScrollBar(new ScrollBar());
         menuList.setLayout(new MigLayout("fillx", "0[]0", "1[]1"));
         userAccount = new ArrayList<>();
+        group = new ArrayList<>();
         PublicEvent.getInstance().addEventMenuLeft(new EventMenuLeft() {
             @Override
             public void newUser(List<Model_User_Account> users) {
                 for (Model_User_Account d : users) {
                     userAccount.add(d);
                     menuList.add(new Item_Peoples(d), "wrap");
+                    refreshMenuList();
+                }
+            }
+
+            @Override
+            public void updateAvataUser(int userID) {
+                for (Model_User_Account d : userAccount) {
+                    if (d.getUserID() == userID) {
+                        for (Component com : menuList.getComponents()) {
+                            Item_Peoples item = (Item_Peoples) com;
+                            if (item.getUser().getUserID() == d.getUserID()) {
+                                item.updateAvata(userID);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void listGroup(List<Model_Group> groups) {
+                for (Model_Group d : groups) {
+                    group.add(d);
+                }
+            }
+
+            @Override
+            public void newGroup(Model_Group groups) {
+                group.add(groups);
+                if (menuGroup.isSelected()) {
+                    menuList.add(new Item_Group(groups, false), "wrap");
                     refreshMenuList();
                 }
             }
@@ -71,7 +107,36 @@ public class Menu_left extends javax.swing.JPanel {
                         }
                     }
                 }
+                if (menuGroup.isSelected()) {
+                    for (Component com : menuList.getComponents()) {
+                        Item_Group item = (Item_Group) com;
+                        if (item.getGroup().getAdminID() == userID) {
+                            item.updateStatus(false);
+                        }
+                    }
+                }
             }
+
+            @Override
+            public void checkGroupOnline() {
+                Service.getInstance().getClient().emit("check_group_online");
+            }
+
+            @Override
+            public void statusGroup(List<Integer> groupID) {
+                if (menuGroup.isSelected()) {
+                    for (Component com : menuList.getComponents()) {
+                        Item_Group item = (Item_Group) com;
+                        for (int groupId : groupID) {
+                            if (item.getGroup().getGroupID() == groupId) {
+                                item.updateStatus(true);
+                                refreshMenuList();
+                            }
+                        }
+                    }
+                }
+            }
+
         });
         showMessage();
     }
@@ -86,8 +151,8 @@ public class Menu_left extends javax.swing.JPanel {
 
     private void showGroup() {
         menuList.removeAll();
-        for (int i = 0; i < 5; i++) {
-            menuList.add(new Item_Peoples(null), "wrap");
+        for (Model_Group d : group) {
+            menuList.add(new Item_Group(d, false), "wrap");
         }
         refreshMenuList();
     }
@@ -205,6 +270,7 @@ public class Menu_left extends javax.swing.JPanel {
             menuGroup.setSelected(false);
             menuBox.setSelected(false);
             showMessage();
+            PublicEvent.getInstance().getEventMenuRight().setOpton(false);
         }
     }//GEN-LAST:event_menuMessageActionPerformed
 
@@ -214,16 +280,19 @@ public class Menu_left extends javax.swing.JPanel {
             menuGroup.setSelected(true);
             menuBox.setSelected(false);
             showGroup();
+            PublicEvent.getInstance().getEventMenuRight().setOpton(true);
+            PublicEvent.getInstance().getEventMenuLeft().checkGroupOnline();
         }
     }//GEN-LAST:event_menuGroupActionPerformed
 
     private void menuBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBoxActionPerformed
-        if (!menuBox.isSelected()) {
-            menuMessage.setSelected(false);
-            menuGroup.setSelected(false);
-            menuBox.setSelected(true);
-            showBox();
-        }
+//        if (!menuBox.isSelected()) {
+//            menuMessage.setSelected(false);
+//            menuGroup.setSelected(false);
+//            menuBox.setSelected(true);
+//            showBox();
+//            PublicEvent.getInstance().getEventMenuRight().setOpton(false);
+//        }
     }//GEN-LAST:event_menuBoxActionPerformed
 
 

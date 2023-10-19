@@ -165,6 +165,71 @@ public class Model_File_Sender {
                                 sendingFile();
                             } else {
                                 //File send finish
+                                Service.getInstance().fileSendGroupFinish(Model_File_Sender.this);
+                                if (event != null) {
+                                    event.onFinish();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+        });
+    }
+    
+    public void initSendGroup() throws IOException {
+        socket.emit("send_to_group", message.toJsonObject(), new Ack() {
+            @Override
+            public void call(Object... os) {
+                if (os.length > 0) {
+                    int fileID = (int) os[0];
+                    try {
+                        System.out.println("server da tra loi - send to group: " + fileID);
+                        startSendGroup(fileID);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+    
+    public void startSendGroup(int fileID) throws IOException {
+        this.fileID = fileID;
+        if (event != null) {
+            event.onStartSending();
+        }
+        sendingFileGroup();
+    }
+
+    private void sendingFileGroup() throws IOException {
+        Model_Package_Sender data = new Model_Package_Sender();
+        data.setFileID(fileID);
+        byte[] bytes = readFile();
+        if (bytes != null) {
+            data.setData(bytes);
+            data.setFinish(false);
+        } else {
+            data.setFinish(true);
+            close();
+        }
+        socket.emit("send_file_group", data.toJsonObject(), new Ack() {
+            @Override
+            public void call(Object... os) {
+                if (os.length > 0) {
+                    boolean act = (boolean) os[0];
+                    if (act) {
+                        try {
+                            if (!data.isFinish()) {
+                                if (event != null) {
+                                    event.onSending(getPercentage());
+                                }
+                                sendingFileGroup();
+                            } else {
+                                //File send finish
                                 Service.getInstance().fileSendFinish(Model_File_Sender.this);
                                 if (event != null) {
                                     event.onFinish();
@@ -179,7 +244,6 @@ public class Model_File_Sender {
 
         });
     }
-
     public double getPercentage() throws IOException {
         double percentage;
         long filePointer = accFile.getFilePointer();
