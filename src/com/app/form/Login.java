@@ -20,7 +20,7 @@ public class Login extends javax.swing.JPanel {
     public void init() {
         PublicEvent.getInstance().addEventLogin(new EventLogin() {
             @Override
-            public void login(Model_Login data) {
+            public void login(Model_Login data, EventMessage message) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -35,10 +35,12 @@ public class Login extends javax.swing.JPanel {
                                         PublicEvent.getInstance().getEventMain().showLoading(false);
                                         PublicEvent.getInstance().getEventMain().initChat();
                                     }else{
+                                        message.callMessage(new Model_Message(action,""));
                                         // password wrong
                                         PublicEvent.getInstance().getEventMain().showLoading(false);
                                     }
                                 } else {
+                                    message.callMessage(new Model_Message(false,""));
                                     PublicEvent.getInstance().getEventMain().showLoading(false);
                                 }
                             }

@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import javax.swing.Icon;
 import javax.swing.JButton;
 
-public class MenuButton extends JButton{
+public class Menu_Button extends JButton{
     private Icon iconSimple;
     private Icon iconSelected;
     
@@ -21,7 +21,7 @@ public class MenuButton extends JButton{
     public void setIconSelected(Icon iconSelected){
         this.iconSelected = iconSelected;
     }
-    public MenuButton(){
+    public Menu_Button(){
         setContentAreaFilled(false);
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     }

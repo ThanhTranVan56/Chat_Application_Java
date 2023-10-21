@@ -6,9 +6,9 @@ import com.app.model.Model_Message;
 import com.app.model.Model_Register_Group;
 import com.app.service.Service;
 
-public class AddGroup extends javax.swing.JPanel {
+public class Add_Group extends javax.swing.JPanel {
 
-    public AddGroup() {
+    public Add_Group() {
         initComponents();
     }
 

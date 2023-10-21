@@ -6,6 +6,7 @@ import com.app.service.Service;
 import com.app.swing.blurhash.BlurHash;
 import io.socket.client.Ack;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -96,6 +97,7 @@ public class Item_Peoples extends javax.swing.JPanel {
     }
 
     private void init() {
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {
@@ -108,10 +110,10 @@ public class Item_Peoples extends javax.swing.JPanel {
                 setBackground(new Color(242, 242, 242));
                 mouseOver = false;
             }
-
+            //== true && (user.getUserID()!= Service.getInstance().getUser().getUserID())
             @Override
             public void mouseReleased(MouseEvent me) {
-                if (mouseOver) {
+                if (mouseOver ) {
                     PublicEvent.getInstance().getEventMain().selectUser(user);
                 }
             }

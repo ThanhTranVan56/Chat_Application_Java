@@ -1,8 +1,10 @@
 package com.app.form;
 
 import com.app.event.EventLogin;
+import com.app.event.EventMessage;
 import com.app.event.PublicEvent;
 import com.app.model.Model_Login;
+import com.app.model.Model_Message;
 
 public class P_Login extends javax.swing.JPanel {
 
@@ -21,6 +23,7 @@ public class P_Login extends javax.swing.JPanel {
         txtPass = new javax.swing.JPasswordField();
         cmdLogin = new javax.swing.JButton();
         cmdRegister = new javax.swing.JButton();
+        lbError = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
@@ -54,6 +57,11 @@ public class P_Login extends javax.swing.JPanel {
             }
         });
 
+        lbError.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        lbError.setForeground(new java.awt.Color(255, 0, 0));
+        lbError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbError.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -67,7 +75,8 @@ public class P_Login extends javax.swing.JPanel {
                     .addComponent(txtPass)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtUser, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
@@ -87,7 +96,9 @@ public class P_Login extends javax.swing.JPanel {
                 .addComponent(cmdLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmdRegister)
-                .addGap(0, 57, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbError)
+                .addGap(0, 36, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -96,7 +107,16 @@ public class P_Login extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdRegisterActionPerformed
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
-        PublicEvent.getInstance().getEventLogin().login(new Model_Login(txtUser.getText(),String.valueOf(txtPass.getPassword())));
+        PublicEvent.getInstance().getEventLogin().login(new Model_Login(txtUser.getText(),String.valueOf(txtPass.getPassword())),new EventMessage(){
+                @Override
+                public void callMessage(Model_Message message) {
+                    if(!message.isAction()){ 
+                        lbError.setText("Sai thông tin đăng nhập !!!");
+                    } else{
+                        PublicEvent.getInstance().getEventMain().initChat();
+                    }
+                }
+            });
     }//GEN-LAST:event_cmdLoginActionPerformed
 
 
@@ -105,6 +125,7 @@ public class P_Login extends javax.swing.JPanel {
     private javax.swing.JButton cmdRegister;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lbError;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUser;

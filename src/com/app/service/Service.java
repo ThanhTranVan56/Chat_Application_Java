@@ -71,7 +71,6 @@ public class Service {
                         if (userID != user.getUserID()) {
                             PublicEvent.getInstance().getEventMenuLeft().updateAvataUser(userID);
                         }
-                    
                 }
             });
 

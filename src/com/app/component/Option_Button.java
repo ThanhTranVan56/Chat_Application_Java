@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JButton;
 
-public class OptionButton extends JButton{
-    public OptionButton(){
+public class Option_Button extends JButton{
+    public Option_Button(){
         setContentAreaFilled(false);
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     }

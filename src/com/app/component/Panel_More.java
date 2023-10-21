@@ -73,7 +73,7 @@ public class Panel_More extends javax.swing.JPanel {
     }
 
     private JButton getButtonImage() {
-        OptionButton cmd = new OptionButton();
+        Option_Button cmd = new Option_Button();
         cmd.setIcon(new ImageIcon(getClass().getResource("/com/app/icon/image.png")));
 
         cmd.addActionListener(new ActionListener() {
@@ -119,7 +119,7 @@ public class Panel_More extends javax.swing.JPanel {
     }
 
     private JButton getButtonFile() {
-        OptionButton cmd = new OptionButton();
+        Option_Button cmd = new Option_Button();
         cmd.setIcon(new ImageIcon(getClass().getResource("/com/app/icon/link1.png")));
 
         cmd.addActionListener(new ActionListener() {
@@ -154,7 +154,7 @@ public class Panel_More extends javax.swing.JPanel {
     }
 
     private JButton getEmoijiStyle1() {
-        OptionButton cmd = new OptionButton();
+        Option_Button cmd = new Option_Button();
         cmd.setIcon(Emogi.getInstance().getEmoji(1).toSize(25, 25).getIcon());
         cmd.addActionListener(new ActionListener() {
             @Override
@@ -174,7 +174,7 @@ public class Panel_More extends javax.swing.JPanel {
     }
 
     private JButton getEmoijiStyle2() {
-        OptionButton cmd = new OptionButton();
+        Option_Button cmd = new Option_Button();
         cmd.setIcon(Emogi.getInstance().getEmoji(2).toSize(25, 25).getIcon());
         cmd.addActionListener(new ActionListener() {
             @Override
@@ -247,8 +247,8 @@ public class Panel_More extends javax.swing.JPanel {
 
     private void clearSelected() {
         for (Component c : panelHeader.getComponents()) {
-            if (c instanceof OptionButton) {
-                ((OptionButton) c).setSelected(false);
+            if (c instanceof Option_Button) {
+                ((Option_Button) c).setSelected(false);
             }
         }
     }

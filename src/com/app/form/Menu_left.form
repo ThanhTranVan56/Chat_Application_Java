@@ -59,7 +59,7 @@
         <Property name="rows" type="int" value="1"/>
       </Layout>
       <SubComponents>
-        <Component class="com.app.component.MenuButton" name="menuMessage">
+        <Component class="com.app.component.Menu_Button" name="menuMessage">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="f2" green="f2" red="f2" type="rgb"/>
@@ -82,7 +82,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuMessageActionPerformed"/>
           </Events>
         </Component>
-        <Component class="com.app.component.MenuButton" name="menuGroup">
+        <Component class="com.app.component.Menu_Button" name="menuGroup">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
@@ -105,7 +105,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuGroupActionPerformed"/>
           </Events>
         </Component>
-        <Component class="com.app.component.MenuButton" name="menuBox">
+        <Component class="com.app.component.Menu_Button" name="menuBox">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>

@@ -176,9 +176,9 @@ public class Menu_left extends javax.swing.JPanel {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         menu = new javax.swing.JLayeredPane();
-        menuMessage = new com.app.component.MenuButton();
-        menuGroup = new com.app.component.MenuButton();
-        menuBox = new com.app.component.MenuButton();
+        menuMessage = new com.app.component.Menu_Button();
+        menuGroup = new com.app.component.Menu_Button();
+        menuBox = new com.app.component.Menu_Button();
         sp = new javax.swing.JScrollPane();
         menuList = new javax.swing.JLayeredPane();
 
@@ -299,10 +299,10 @@ public class Menu_left extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLayeredPane menu;
-    private com.app.component.MenuButton menuBox;
-    private com.app.component.MenuButton menuGroup;
+    private com.app.component.Menu_Button menuBox;
+    private com.app.component.Menu_Button menuGroup;
     private javax.swing.JLayeredPane menuList;
-    private com.app.component.MenuButton menuMessage;
+    private com.app.component.Menu_Button menuMessage;
     private javax.swing.JScrollPane sp;
     // End of variables declaration//GEN-END:variables
 }

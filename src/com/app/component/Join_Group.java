@@ -6,9 +6,9 @@ import com.app.model.Model_Message;
 import java.awt.Color;
 import javax.swing.Timer;
 
-public class JoinGroup extends javax.swing.JPanel {
+public class Join_Group extends javax.swing.JPanel {
 
-    public JoinGroup() {
+    public Join_Group() {
         initComponents();
     }
 

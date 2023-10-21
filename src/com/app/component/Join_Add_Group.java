@@ -2,10 +2,10 @@ package com.app.component;
 
 import javax.swing.Timer;
 
-public class Menu_Right_Option extends javax.swing.JPanel {
+public class Join_Add_Group extends javax.swing.JPanel {
 
 
-    public Menu_Right_Option() {
+    public Join_Add_Group() {
         initComponents();
         init();
     }
@@ -38,8 +38,8 @@ public class Menu_Right_Option extends javax.swing.JPanel {
         jLayeredPane2 = new javax.swing.JLayeredPane();
         sendMessage = new javax.swing.JPanel();
         lblMessage = new javax.swing.JLabel();
-        joinGroup1 = new com.app.component.JoinGroup();
-        addGroup1 = new com.app.component.AddGroup();
+        joinGroup1 = new com.app.component.Join_Group();
+        addGroup1 = new com.app.component.Add_Group();
 
         setBackground(new java.awt.Color(242, 242, 242));
         setForeground(new java.awt.Color(242, 242, 242));
@@ -80,14 +80,14 @@ public class Menu_Right_Option extends javax.swing.JPanel {
             .addGroup(sendMessageLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sendMessageLayout.setVerticalGroup(
             sendMessageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sendMessageLayout.createSequentialGroup()
                 .addGap(58, 58, 58)
                 .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         jLayeredPane2.add(sendMessage, "card4");
@@ -106,12 +106,11 @@ public class Menu_Right_Option extends javax.swing.JPanel {
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(btnJoinGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAddGroup)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jLayeredPane2)
+                .addComponent(btnAddGroup))
+            .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,7 +119,7 @@ public class Menu_Right_Option extends javax.swing.JPanel {
                     .addComponent(btnJoinGroup)
                     .addComponent(btnAddGroup))
                 .addGap(2, 2, 2)
-                .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
 
@@ -150,12 +149,12 @@ public class Menu_Right_Option extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.app.component.AddGroup addGroup1;
+    private com.app.component.Add_Group addGroup1;
     private javax.swing.JButton btnAddGroup;
     private javax.swing.JButton btnJoinGroup;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLayeredPane jLayeredPane2;
-    private com.app.component.JoinGroup joinGroup1;
+    private com.app.component.Join_Group joinGroup1;
     private javax.swing.JLabel lblMessage;
     private javax.swing.JPanel sendMessage;
     // End of variables declaration//GEN-END:variables

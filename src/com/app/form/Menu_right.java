@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import com.app.swing.blurhash.FileChooser;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,6 +36,10 @@ import net.miginfocom.swing.MigLayout;
 public class Menu_right extends javax.swing.JPanel {
 
     private List<Model_User_Account> memAccount;
+    private boolean isMenuOptionVisible = false;
+    private boolean mouseOver;
+    private boolean isjoinaddVisible;
+    private boolean iseditaccount;
 
     public Menu_right() {
         initComponents();
@@ -43,21 +48,42 @@ public class Menu_right extends javax.swing.JPanel {
     private final String PATH_FILE = "client_data/avata/";
 
     public void init() {
+
         sp.setVerticalScrollBar(new ScrollBar());
         menuList.setLayout(new MigLayout("fillx", "0[]0", "1[]1"));
         memAccount = new ArrayList<>();
-        menu_Right_Option1.setVisible(false);
+        join_add_group.setVisible(false);
+        menuOption.setVisible(false);
+        lblMemberIn.setVisible(false);
+        edit_Account.setVisible(false);
         //groupAdminOption2.setVisible(false);
         PublicEvent.getInstance().addEventMenuRight(new EventMenuRight() {
             @Override
             public void setOpton(boolean option) {
-                menu_Right_Option1.setVisible(option);
+                isjoinaddVisible = option;
+                if(iseditaccount){
+                    join_add_group.setVisible(false);
+                } else{
+                    join_add_group.setVisible(option);
+                }
+                
+                if (!option) {
+                    lblMemberIn.setVisible(false);
+                    menuList.removeAll();
+                }
+
             }
 
             @Override
             public void deleteAdminOpton(GroupAdminOption admin) {
                 menuList.remove(admin);
                 refreshMenuList();
+            }
+
+            @Override
+            public void setMemberIn(boolean option, String groupName) {
+                lblMemberIn.setVisible(option);
+                lblgroupName.setText(groupName);
             }
         });
         PublicEvent.getInstance().addEventReGroup(new EventReGroup() {
@@ -107,17 +133,17 @@ public class Menu_right extends javax.swing.JPanel {
 
             @Override
             public void sendJoinGroup(String message) {
-                menu_Right_Option1.setSendJoin(message);
+                join_add_group.setSendJoin(message);
             }
 
             @Override
             public void sendMessage(String message) {
-                menu_Right_Option1.sendMessage(message);
+                join_add_group.sendMessage(message);
             }
 
             @Override
             public void memberInGroup(List<Model_User_Account> list) {
-                menuList.removeAll(); 
+                menuList.removeAll();
                 for (Model_User_Account l : list) {
                     memAccount.add(l);
                     menuList.add(new Item_Peoples(l), "wrap");
@@ -129,14 +155,12 @@ public class Menu_right extends javax.swing.JPanel {
         });
 
         addEvent(imageAvatar1);
-    }
+        addEventSetAvata(plAvata);
+        setGroupOption(plGroupOption);
+        editAccount(plProfile);
+        setDropDown(plLogOut);
+        //setDropDown(menuOption);
 
-    private void showMessage() {
-        menuList.removeAll();
-        for (Model_User_Account d : memAccount) {
-            menuList.add(new Item_Peoples(d), "wrap");
-        }
-        refreshMenuList();
     }
 
     public void setProfile(Model_User_Account user) {
@@ -173,7 +197,102 @@ public class Menu_right extends javax.swing.JPanel {
         });
     }
 
-    private void addEvent(Component com) {
+    private void setDropDown(Component com) {
+        com.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        com.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent me) {
+                com.setBackground(new Color(229, 229, 229));
+                mouseOver = true;
+            }
+
+            @Override
+            public void mouseExited(MouseEvent me) {
+                com.setBackground(new Color(242, 242, 242));
+                mouseOver = false;
+            }
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                System.exit(0);
+            }
+            //System.exit(0);
+        });
+    }
+
+    private void setGroupOption(Component com) {
+        com.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        com.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                isMenuOptionVisible = false;
+                menuOption.setVisible(false);
+                isjoinaddVisible = true;
+                join_add_group.setVisible(true);
+                if (!iseditaccount) {
+                    edit_Account.setVisible(iseditaccount);
+                } else {
+                    edit_Account.setVisible(false);
+                    iseditaccount = false;
+                }
+            }
+            @Override
+            public void mouseEntered(MouseEvent me) {
+                com.setBackground(new Color(229, 229, 229));
+                mouseOver = true;
+            }
+
+            @Override
+            public void mouseExited(MouseEvent me) {
+                com.setBackground(new Color(242, 242, 242));
+                mouseOver = false;
+            }
+        ;
+
+    }
+
+    );
+    }
+    private void editAccount(Component com) {
+        com.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        com.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                Service.getInstance().getClient().emit("get_username_pass", Service.getInstance().getUser().getUserID(), new Ack() {
+                    @Override
+                    public void call(Object... os) {
+                        String namepass = (String) os[0];
+                        String[] parts = namepass.split("@");
+                        String username = parts[0];
+                        String password = parts[1];
+                        edit_Account.setAccount(username, password);
+                    }
+                });
+                iseditaccount=true;
+                edit_Account.setVisible(true);
+                isMenuOptionVisible = false;
+                menuOption.setVisible(false);
+                if (!isjoinaddVisible) {
+                    join_add_group.setVisible(isjoinaddVisible);
+                } else {
+                    join_add_group.setVisible(false);
+                    isjoinaddVisible = false;
+                }
+            }
+            @Override
+            public void mouseEntered(MouseEvent me) {
+                com.setBackground(new Color(229, 229, 229));
+                mouseOver = true;
+            }
+
+            @Override
+            public void mouseExited(MouseEvent me) {
+                com.setBackground(new Color(242, 242, 242));
+                mouseOver = false;
+            }
+        });
+    }
+
+    private void addEventSetAvata(Component com) {
         com.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         com.addMouseListener(new MouseAdapter() {
@@ -210,16 +329,52 @@ public class Menu_right extends javax.swing.JPanel {
                         repaint();
                     }
                 }
+                isMenuOptionVisible = false;
+                menuOption.setVisible(false);
+            }
+            @Override
+            public void mouseEntered(MouseEvent me) {
+                com.setBackground(new Color(229, 229, 229));
+                mouseOver = true;
+            }
+
+            @Override
+            public void mouseExited(MouseEvent me) {
+                com.setBackground(new Color(242, 242, 242));
+                mouseOver = false;
+            }
+
+        });
+    }
+
+    private void addEvent(Component com) {
+        com.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        com.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                //isUserOptionVisible
+                if (!isMenuOptionVisible) {
+                    isMenuOptionVisible = true;
+                    menuOption.setVisible(true);
+                } else {
+                    isMenuOptionVisible = false;
+                    menuOption.setVisible(false);
+                }
+
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                lblSetImage.setText("Set Avata");
+                //lblSetImage.setText("My project");
+
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                lblSetImage.setText("");
+                //UserOption.setVisible(false);
+                //lblSetImage.setText("");
+                //repaint();
             }
         });
     }
@@ -234,56 +389,207 @@ public class Menu_right extends javax.swing.JPanel {
     private void initComponents() {
 
         backgroud = new javax.swing.JPanel();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        menuOption = new javax.swing.JPanel();
+        plProfile = new javax.swing.JPanel();
+        lblProfile = new javax.swing.JLabel();
+        plAvata = new javax.swing.JPanel();
+        lblAvata = new javax.swing.JLabel();
+        plGroupOption = new javax.swing.JPanel();
+        lblGroupOption = new javax.swing.JLabel();
+        plLogOut = new javax.swing.JPanel();
+        lblLogOut = new javax.swing.JLabel();
+        edit_Account = new com.app.component.Edit_Account();
+        join_add_group = new com.app.component.Join_Add_Group();
         jPanel1 = new javax.swing.JPanel();
         imageAvatar1 = new com.app.swing.ImageAvatar();
         lblUserName = new javax.swing.JLabel();
-        lblSetImage = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        menu_Right_Option1 = new com.app.component.Menu_Right_Option();
+        lblMemberIn = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblgroupName = new javax.swing.JLabel();
         sp = new javax.swing.JScrollPane();
         menuList = new javax.swing.JLayeredPane();
 
         setBackground(new java.awt.Color(242, 242, 242));
         setForeground(new java.awt.Color(242, 242, 242));
 
+        backgroud.setBackground(new java.awt.Color(249, 249, 249));
         backgroud.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(249, 249, 249));
-        jPanel1.setForeground(new java.awt.Color(249, 249, 249));
-        jPanel1.setLayout(null);
+        jLayeredPane1.setBackground(new java.awt.Color(221, 221, 221));
+        jLayeredPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        imageAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/icons8-test-account-45.png"))); // NOI18N
-        imageAvatar1.setMinimumSize(new java.awt.Dimension(35, 35));
-        jPanel1.add(imageAvatar1);
-        imageAvatar1.setBounds(0, 0, 70, 50);
+        menuOption.setBackground(new java.awt.Color(0, 255, 204));
+        menuOption.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, new java.awt.Color(246, 243, 243), new java.awt.Color(246, 244, 244)));
+        menuOption.setForeground(new java.awt.Color(0, 255, 204));
+        menuOption.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblUserName.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        lblUserName.setForeground(new java.awt.Color(0, 0, 0));
-        lblUserName.setText("User Name");
-        jPanel1.add(lblUserName);
-        lblUserName.setBounds(70, 20, 130, 20);
+        lblProfile.setBackground(new java.awt.Color(0, 0, 0));
+        lblProfile.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        lblProfile.setForeground(new java.awt.Color(0, 0, 0));
+        lblProfile.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblProfile.setText("Cập nhật tài khoản");
 
-        lblSetImage.setBackground(new java.awt.Color(0, 255, 51));
-        lblSetImage.setForeground(new java.awt.Color(0, 255, 0));
-        jPanel1.add(lblSetImage);
-        lblSetImage.setBounds(10, 60, 60, 20);
-
-        backgroud.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 231, 52));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menu_Right_Option1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout plProfileLayout = new javax.swing.GroupLayout(plProfile);
+        plProfile.setLayout(plProfileLayout);
+        plProfileLayout.setHorizontalGroup(
+            plProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, plProfileLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(lblProfile)
+                .addGap(10, 10, 10))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(menu_Right_Option1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+        plProfileLayout.setVerticalGroup(
+            plProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, plProfileLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        menuOption.add(plProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 120, 20));
+
+        lblAvata.setBackground(new java.awt.Color(0, 0, 0));
+        lblAvata.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        lblAvata.setForeground(new java.awt.Color(0, 0, 0));
+        lblAvata.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblAvata.setText("Cập nhật avata");
+
+        javax.swing.GroupLayout plAvataLayout = new javax.swing.GroupLayout(plAvata);
+        plAvata.setLayout(plAvataLayout);
+        plAvataLayout.setHorizontalGroup(
+            plAvataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, plAvataLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblAvata, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
+        );
+        plAvataLayout.setVerticalGroup(
+            plAvataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, plAvataLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblAvata, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        menuOption.add(plAvata, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 120, 20));
+
+        lblGroupOption.setBackground(new java.awt.Color(0, 0, 0));
+        lblGroupOption.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        lblGroupOption.setForeground(new java.awt.Color(0, 0, 0));
+        lblGroupOption.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblGroupOption.setText("Group");
+
+        javax.swing.GroupLayout plGroupOptionLayout = new javax.swing.GroupLayout(plGroupOption);
+        plGroupOption.setLayout(plGroupOptionLayout);
+        plGroupOptionLayout.setHorizontalGroup(
+            plGroupOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, plGroupOptionLayout.createSequentialGroup()
+                .addContainerGap(33, Short.MAX_VALUE)
+                .addComponent(lblGroupOption, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
+        );
+        plGroupOptionLayout.setVerticalGroup(
+            plGroupOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, plGroupOptionLayout.createSequentialGroup()
+                .addComponent(lblGroupOption, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        backgroud.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 51, 210, 160));
+        menuOption.add(plGroupOption, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 120, 20));
+
+        lblLogOut.setBackground(new java.awt.Color(0, 0, 0));
+        lblLogOut.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblLogOut.setForeground(new java.awt.Color(0, 0, 0));
+        lblLogOut.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblLogOut.setText("Đăng xuất");
+
+        javax.swing.GroupLayout plLogOutLayout = new javax.swing.GroupLayout(plLogOut);
+        plLogOut.setLayout(plLogOutLayout);
+        plLogOutLayout.setHorizontalGroup(
+            plLogOutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, plLogOutLayout.createSequentialGroup()
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(lblLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
+        );
+        plLogOutLayout.setVerticalGroup(
+            plLogOutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(plLogOutLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        menuOption.add(plLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 120, -1));
+
+        jLayeredPane1.add(menuOption, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 120, -1));
+        jLayeredPane1.add(edit_Account, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 210, -1));
+        jLayeredPane1.add(join_add_group, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, -1, -1));
+
+        jPanel1.setBackground(new java.awt.Color(242, 242, 242));
+
+        imageAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/app/icon/icons8-test-account-45.png"))); // NOI18N
+        imageAvatar1.setMinimumSize(new java.awt.Dimension(35, 35));
+
+        lblUserName.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblUserName.setForeground(new java.awt.Color(0, 0, 0));
+        lblUserName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblUserName.setText("User Name");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(43, Short.MAX_VALUE)
+                .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(lblUserName)
+                .addContainerGap(16, Short.MAX_VALUE))
+            .addComponent(imageAvatar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jLayeredPane1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 50));
+
+        backgroud.add(jLayeredPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 220));
+
+        lblMemberIn.setBackground(new java.awt.Color(249, 249, 249));
+        lblMemberIn.setForeground(new java.awt.Color(242, 242, 242));
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Member in");
+
+        lblgroupName.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        lblgroupName.setForeground(new java.awt.Color(0, 51, 255));
+
+        javax.swing.GroupLayout lblMemberInLayout = new javax.swing.GroupLayout(lblMemberIn);
+        lblMemberIn.setLayout(lblMemberInLayout);
+        lblMemberInLayout.setHorizontalGroup(
+            lblMemberInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lblMemberInLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblgroupName, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+        lblMemberInLayout.setVerticalGroup(
+            lblMemberInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lblMemberInLayout.createSequentialGroup()
+                .addGroup(lblMemberInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblgroupName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 4, Short.MAX_VALUE))
+        );
+
+        backgroud.add(lblMemberIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 210, 20));
 
         sp.setBackground(new java.awt.Color(242, 242, 242));
         sp.setBorder(null);
@@ -307,7 +613,7 @@ public class Menu_right extends javax.swing.JPanel {
 
         sp.setViewportView(menuList);
 
-        backgroud.add(sp, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 206, 210, 320));
+        backgroud.add(sp, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 236, 210, 290));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -324,13 +630,25 @@ public class Menu_right extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel backgroud;
+    private com.app.component.Edit_Account edit_Account;
     private com.app.swing.ImageAvatar imageAvatar1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel lblSetImage;
+    private com.app.component.Join_Add_Group join_add_group;
+    private javax.swing.JLabel lblAvata;
+    private javax.swing.JLabel lblGroupOption;
+    private javax.swing.JLabel lblLogOut;
+    private javax.swing.JPanel lblMemberIn;
+    private javax.swing.JLabel lblProfile;
     private javax.swing.JLabel lblUserName;
+    private javax.swing.JLabel lblgroupName;
     private javax.swing.JLayeredPane menuList;
-    private com.app.component.Menu_Right_Option menu_Right_Option1;
+    private javax.swing.JPanel menuOption;
+    private javax.swing.JPanel plAvata;
+    private javax.swing.JPanel plGroupOption;
+    private javax.swing.JPanel plLogOut;
+    private javax.swing.JPanel plProfile;
     private javax.swing.JScrollPane sp;
     // End of variables declaration//GEN-END:variables
 }
