@@ -21,4 +21,6 @@ public interface EventMenuLeft {
     public void checkGroupOnline();
     
     public void statusGroup(List<Integer> groupID);
+    
+    public void logout();
 }

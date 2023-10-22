@@ -36,6 +36,7 @@ import net.miginfocom.swing.MigLayout;
 public class Menu_right extends javax.swing.JPanel {
 
     private List<Model_User_Account> memAccount;
+    private Model_User_Account userAccount;
     private boolean isMenuOptionVisible = false;
     private boolean mouseOver;
     private boolean isjoinaddVisible;
@@ -61,12 +62,12 @@ public class Menu_right extends javax.swing.JPanel {
             @Override
             public void setOpton(boolean option) {
                 isjoinaddVisible = option;
-                if(iseditaccount){
+                if (isMenuOptionVisible) {
                     join_add_group.setVisible(false);
-                } else{
+                } else {
                     join_add_group.setVisible(option);
                 }
-                
+
                 if (!option) {
                     lblMemberIn.setVisible(false);
                     menuList.removeAll();
@@ -158,12 +159,13 @@ public class Menu_right extends javax.swing.JPanel {
         addEventSetAvata(plAvata);
         setGroupOption(plGroupOption);
         editAccount(plProfile);
-        setDropDown(plLogOut);
+        setLogOut(plLogOut);
         //setDropDown(menuOption);
 
     }
 
     public void setProfile(Model_User_Account user) {
+        userAccount = user;
         lblUserName.setText(user.getUserName());
         if ("1".equals(user.getImage())) {
             String filePath = PATH_FILE + user.getUserID() + user.getUserName() + "avata.jpg";
@@ -197,7 +199,7 @@ public class Menu_right extends javax.swing.JPanel {
         });
     }
 
-    private void setDropDown(Component com) {
+    private void setLogOut(Component com) {
         com.setCursor(new Cursor(Cursor.HAND_CURSOR));
         com.addMouseListener(new MouseAdapter() {
             @Override
@@ -211,11 +213,25 @@ public class Menu_right extends javax.swing.JPanel {
                 com.setBackground(new Color(242, 242, 242));
                 mouseOver = false;
             }
+
             @Override
             public void mouseClicked(MouseEvent me) {
-                System.exit(0);
+                //System.exit(0);
+                Service.getInstance().getClient().emit("user_logout", new Ack() {
+                    @Override
+                    public void call(Object... os) {
+                        boolean isaction = (boolean) os[0];
+                        if (isaction) {
+                            PublicEvent.getInstance().getEventMenuLeft().logout();
+                            PublicEvent.getInstance().getEventMain().reLogin();
+                            isMenuOptionVisible = false;
+                            menuOption.setVisible(false);
+                        } else {
+                            lblLogout.setText("Lỗi hệ thống!!!");
+                        }
+                    }
+                });
             }
-            //System.exit(0);
         });
     }
 
@@ -235,6 +251,7 @@ public class Menu_right extends javax.swing.JPanel {
                     iseditaccount = false;
                 }
             }
+
             @Override
             public void mouseEntered(MouseEvent me) {
                 com.setBackground(new Color(229, 229, 229));
@@ -257,7 +274,7 @@ public class Menu_right extends javax.swing.JPanel {
         com.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent me) {
-                Service.getInstance().getClient().emit("get_username_pass", Service.getInstance().getUser().getUserID(), new Ack() {
+                Service.getInstance().getClient().emit("get_username_pass", userAccount.getUserID(), new Ack() {
                     @Override
                     public void call(Object... os) {
                         String namepass = (String) os[0];
@@ -267,7 +284,7 @@ public class Menu_right extends javax.swing.JPanel {
                         edit_Account.setAccount(username, password);
                     }
                 });
-                iseditaccount=true;
+                iseditaccount = true;
                 edit_Account.setVisible(true);
                 isMenuOptionVisible = false;
                 menuOption.setVisible(false);
@@ -278,6 +295,7 @@ public class Menu_right extends javax.swing.JPanel {
                     isjoinaddVisible = false;
                 }
             }
+
             @Override
             public void mouseEntered(MouseEvent me) {
                 com.setBackground(new Color(229, 229, 229));
@@ -332,6 +350,7 @@ public class Menu_right extends javax.swing.JPanel {
                 isMenuOptionVisible = false;
                 menuOption.setVisible(false);
             }
+
             @Override
             public void mouseEntered(MouseEvent me) {
                 com.setBackground(new Color(229, 229, 229));
@@ -404,6 +423,7 @@ public class Menu_right extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         imageAvatar1 = new com.app.swing.ImageAvatar();
         lblUserName = new javax.swing.JLabel();
+        lblLogout = new javax.swing.JLabel();
         lblMemberIn = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblgroupName = new javax.swing.JLabel();
@@ -557,6 +577,10 @@ public class Menu_right extends javax.swing.JPanel {
 
         jLayeredPane1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 50));
 
+        lblLogout.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        lblLogout.setForeground(new java.awt.Color(255, 0, 0));
+        jLayeredPane1.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 140, 20));
+
         backgroud.add(jLayeredPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 220));
 
         lblMemberIn.setBackground(new java.awt.Color(249, 249, 249));
@@ -639,6 +663,7 @@ public class Menu_right extends javax.swing.JPanel {
     private javax.swing.JLabel lblAvata;
     private javax.swing.JLabel lblGroupOption;
     private javax.swing.JLabel lblLogOut;
+    private javax.swing.JLabel lblLogout;
     private javax.swing.JPanel lblMemberIn;
     private javax.swing.JLabel lblProfile;
     private javax.swing.JLabel lblUserName;

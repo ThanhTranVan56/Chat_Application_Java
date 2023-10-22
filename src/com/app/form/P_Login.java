@@ -1,6 +1,5 @@
 package com.app.form;
 
-import com.app.event.EventLogin;
 import com.app.event.EventMessage;
 import com.app.event.PublicEvent;
 import com.app.model.Model_Login;
@@ -11,7 +10,10 @@ public class P_Login extends javax.swing.JPanel {
     public P_Login() {
         initComponents();
     }
-
+    public void resetLbl(){
+        txtUser.setText("");
+        txtPass.setText("");
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -9,9 +9,10 @@ import com.app.model.Model_Register;
 import com.app.model.Model_User_Account;
 import com.app.service.Service;
 import io.socket.client.Ack;
+import java.awt.Component;
 
 public class Login extends javax.swing.JPanel {
-
+    private P_Login login;
     public Login() {
         initComponents();
         init();
@@ -81,11 +82,13 @@ public class Login extends javax.swing.JPanel {
             }
 
         });
-        P_Login login = new P_Login();
+        login = new P_Login();
         P_Register register = new P_Register();
         slide.init(login, register);
     }
-
+    public void resetLbl(){
+         login.resetLbl();
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

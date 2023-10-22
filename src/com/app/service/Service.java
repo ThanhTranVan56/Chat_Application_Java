@@ -31,6 +31,7 @@ public class Service {
     private Socket client;
     private final int PORT_NUMBER = 9999;
     private Model_User_Account user;
+    private List<Model_User_Account> userAccounts;
     private final String IP = "localhost";
     private List<Model_File_Sender> fileSender;
     private List<Model_File_Receiver> fileReceiver;
@@ -54,14 +55,14 @@ public class Service {
                 @Override
                 public void call(Object... os) {
                     // list user
-                    List<Model_User_Account> users = new ArrayList<>();
+                   userAccounts = new ArrayList<>();
                     for (Object o : os) {
                         Model_User_Account u = new Model_User_Account(o);
                         if (u.getUserID() != user.getUserID()) {
-                            users.add(u);
+                            userAccounts.add(u);
                         }
                     }
-                    PublicEvent.getInstance().getEventMenuLeft().newUser(users);
+                    PublicEvent.getInstance().getEventMenuLeft().newUser(userAccounts);
                 }
             });
             client.on("user_update_avata", new Emitter.Listener() {
@@ -308,6 +309,10 @@ public class Service {
 
     public void setUser(Model_User_Account user) {
         this.user = user;
+    }
+    
+    public List<Model_User_Account> getListUser(){
+        return userAccounts;
     }
 
     private void error(Exception e) {

@@ -16,4 +16,6 @@ public interface EventMain {
     public void selectGroup(Model_Group group);
     
     public void waitGroup();
+    
+    public void reLogin();
 }

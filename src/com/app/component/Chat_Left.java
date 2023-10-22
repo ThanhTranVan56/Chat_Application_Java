@@ -4,6 +4,10 @@ import com.app.model.Model_Receive_File;
 import com.app.model.Model_Receive_Image;
 import com.app.model.Model_Receive_Image_Group;
 import java.awt.Color;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.Icon;
 
 public class Chat_Left extends javax.swing.JLayeredPane {
@@ -22,11 +26,11 @@ public class Chat_Left extends javax.swing.JLayeredPane {
     }
 
     public void setImage(Model_Receive_Image dataImage) {
-       txt.setImage(false, dataImage);
+        txt.setImage(false, dataImage);
     }
-    
+
     public void setImage(Model_Receive_Image_Group dataImage) {
-       txt.setImage(false, dataImage);
+        txt.setImage(false, dataImage);
     }
 
     public void setImage(String... image) {
@@ -34,21 +38,29 @@ public class Chat_Left extends javax.swing.JLayeredPane {
     }
 
     public void setFile(Model_Receive_File dataFile) {
-       txt.setFile(false, dataFile);
-    }
-    
-     
-    public void setFile(String fileName, String fileSize) {
-        txt.setFile(false,fileName, fileSize);
+        txt.setFile(false, dataFile);
     }
 
-    public void setEmoji(Icon icon){
-        txt.hideText();
-        txt.setEmoji(false,icon);
+    public void setFile(String fileName, String fileSize) {
+        txt.setFile(false, fileName, fileSize);
     }
-    
+
+    public void setEmoji(Icon icon) {
+        txt.hideText();
+        txt.setEmoji(false, icon);
+    }
+
     public void setTime() {
-        txt.setTime("10:30 PM");
+        LocalTime currentTime = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+        String formattedTime = currentTime.format(formatter);
+        txt.setTime(formattedTime);
+    }
+
+    public void setTime(Timestamp datetime) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        String formattedTime = dateFormat.format(datetime);
+        txt.setTime(formattedTime);
     }
 
     @SuppressWarnings("unchecked")

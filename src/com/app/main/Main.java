@@ -85,7 +85,7 @@ public class Main extends javax.swing.JFrame {
                             List<Model_User_Account> listU = new ArrayList<>();
                             for (Object o : os) {
                                 Model_User_Account u = new Model_User_Account(o);
-                                    listU.add(u);
+                                listU.add(u);
                             }
                             System.out.print("List member: " + listU.size());
                             PublicEvent.getInstance().getEventReGroup().memberInGroup(listU);
@@ -99,6 +99,15 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void waitGroup() {
                 home.setWaitGroup();
+            }
+
+            @Override
+            public void reLogin() {
+                login.setVisible(true);
+                loading.setVisible(false);
+                view_Image.setVisible(false);
+                home.setVisible(false);
+                login.resetLbl();
             }
         });
         PublicEvent.getInstance().addEventImageView(new EventImageView() {

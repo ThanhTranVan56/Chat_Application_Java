@@ -4,6 +4,10 @@ import com.app.model.Model_File_Sender;
 import com.app.model.Model_Receive_File;
 import com.app.model.Model_Receive_Image;
 import java.awt.Color;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.Icon;
 
 public class Chat_Right extends javax.swing.JLayeredPane {
@@ -51,7 +55,18 @@ public class Chat_Right extends javax.swing.JLayeredPane {
     }
     
     public void setTime() {
-        txt.setTime("10:30 PM");
+        LocalTime currentTime = LocalTime.now(); // Lấy thời gian hiện tại
+
+        // Định dạng thời gian thành chuỗi theo định dạng "hh:mm a"
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+        String formattedTime = currentTime.format(formatter);
+
+        txt.setTime(formattedTime);
+    }
+    public void setTime(Timestamp datetime) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        String formattedTime = dateFormat.format(datetime);
+        txt.setTime(formattedTime);
     }
 
     @SuppressWarnings("unchecked")

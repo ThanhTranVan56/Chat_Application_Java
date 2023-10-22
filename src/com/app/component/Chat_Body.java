@@ -6,17 +6,23 @@ import com.app.model.Model_Load_Data;
 import com.app.model.Model_Receive_Message;
 import com.app.model.Model_Receive_Message_Group;
 import com.app.model.Model_Send_Message;
+import com.app.model.Model_User_Account;
 import com.app.service.Service;
 import com.app.swing.ScrollBar;
 import java.awt.Adjustable;
 import java.awt.Color;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.io.File;
 import javax.swing.JScrollBar;
 import java.sql.Timestamp;
+import java.util.List;
+import javax.swing.ImageIcon;
 import net.miginfocom.swing.MigLayout;
 
 public class Chat_Body extends javax.swing.JPanel {
+
+    private final String PATH_FILE = "client_data/avata/";
 
     public Chat_Body() {
         initComponents();
@@ -30,25 +36,50 @@ public class Chat_Body extends javax.swing.JPanel {
         repaint();
         revalidate();
     }
+
     public void addItemLeft(Model_Receive_Message data) {
         if (data.getMessageType() == MessageType.TEXT) {
-            Chat_Left item = new Chat_Left();
+           Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+            if (!"".equals(getAvataPath(data.getFromUserID()))) {
+                File file = new File(getAvataPath(data.getFromUserID()));
+                if (file.exists()) {
+                    item.setImageProfile(new ImageIcon(file.getAbsolutePath()));
+                }
+            }
             item.setText(data.getText());
             item.setTime();
             body.add(item, "wrap, w 100::80%");
         } else if (data.getMessageType() == MessageType.EMOJI) {
-            Chat_Left item = new Chat_Left();
+            Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+            if (!"".equals(getAvataPath(data.getFromUserID()))) {
+                File file = new File(getAvataPath(data.getFromUserID()));
+                if (file.exists()) {
+                    item.setImageProfile(new ImageIcon(file.getAbsolutePath()));
+                }
+            }
             item.setEmoji(Emogi.getInstance().getEmoji(Integer.valueOf(data.getText())).getIcon());
             item.setTime();
             body.add(item, "wrap, w 100::80%");
         } else if (data.getMessageType() == MessageType.IMAGE) {
-            Chat_Left item = new Chat_Left();
+            Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+            if (!"".equals(getAvataPath(data.getFromUserID()))) {
+                File file = new File(getAvataPath(data.getFromUserID()));
+                if (file.exists()) {
+                    item.setImageProfile(new ImageIcon(file.getAbsolutePath()));
+                }
+            }
             item.setText("");
             item.setImage(data.getDataImage());
             item.setTime();
             body.add(item, "wrap, w 100::80%");
         } else if (data.getMessageType() == MessageType.FILE) {
-            Chat_Left item = new Chat_Left();
+            Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+            if (!"".equals(getAvataPath(data.getFromUserID()))) {
+                File file = new File(getAvataPath(data.getFromUserID()));
+                if (file.exists()) {
+                    item.setImageProfile(new ImageIcon(file.getAbsolutePath()));
+                }
+            }
             item.setText("");
             item.setFile(data.getDataFile());
             item.setTime();
@@ -57,15 +88,21 @@ public class Chat_Body extends javax.swing.JPanel {
         repaint();
         revalidate();
     }
-    
+
     public void addItemLeft(Model_Receive_Message_Group data) {
         if (data.getMessageType() == MessageType.IMAGE) {
-            Chat_Left item = new Chat_Left();
+           Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+            if (!"".equals(getAvataPath(data.getFromUserID()))) {
+                File file = new File(getAvataPath(data.getFromUserID()));
+                if (file.exists()) {
+                    item.setImageProfile(new ImageIcon(file.getAbsolutePath()));
+                }
+            }
             item.setText("");
             item.setImage(data.getDataImage());
             item.setTime();
             body.add(item, "wrap, w 100::80%");
-        } 
+        }
 //        else if (data.getMessageType() == MessageType.FILE) {
 //            Chat_Left item = new Chat_Left();
 //            item.setText("");
@@ -77,29 +114,53 @@ public class Chat_Body extends javax.swing.JPanel {
         repaint();
         revalidate();
     }
-    
+
     public void addItemLeft(Model_Load_Data data) {
         if (data.getMessageType() == MessageType.TEXT) {
-            Chat_Left item = new Chat_Left();
+            Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+            if (!"".equals(getAvataPath(data.getFromUserID()))) {
+                File file = new File(getAvataPath(data.getFromUserID()));
+                if (file.exists()) {
+                    item.setImageProfile(new ImageIcon(file.getAbsolutePath()));
+                }
+            }
             item.setText(data.getText());
-            item.setTime();
+            item.setTime(data.getDateTime());
             body.add(item, "wrap, w 100::80%");
         } else if (data.getMessageType() == MessageType.EMOJI) {
-            Chat_Left item = new Chat_Left();
-            item.setEmoji(Emogi.getInstance().getEmoji(Integer.valueOf(data.getText())).getIcon());
-            item.setTime();
+            Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+            if (!"".equals(getAvataPath(data.getFromUserID()))) {
+                File file = new File(getAvataPath(data.getFromUserID()));
+                if (file.exists()) {
+                    item.setImageProfile(new ImageIcon(file.getAbsolutePath()));
+                }
+            }
+            item.setEmoji(Emogi.getInstance().getEmoji(Integer.parseInt(data.getText())).getIcon());
+            item.setTime(data.getDateTime());
             body.add(item, "wrap, w 100::80%");
         } else if (data.getMessageType() == MessageType.IMAGE) {
-            Chat_Left item = new Chat_Left();
+            Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+            if (!"".equals(getAvataPath(data.getFromUserID()))) {
+                File file = new File(getAvataPath(data.getFromUserID()));
+                if (file.exists()) {
+                    item.setImageProfile(new ImageIcon(file.getAbsolutePath()));
+                }
+            }
             item.setText("");
             item.setImage(data.getDataImage());
-            item.setTime();
+            item.setTime(data.getDateTime());
             body.add(item, "wrap, w 100::80%");
         } else if (data.getMessageType() == MessageType.FILE) {
-            Chat_Left item = new Chat_Left();
+            Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+            if (!"".equals(getAvataPath(data.getFromUserID()))) {
+                File file = new File(getAvataPath(data.getFromUserID()));
+                if (file.exists()) {
+                    item.setImageProfile(new ImageIcon(file.getAbsolutePath()));
+                }
+            }
             item.setText("");
             item.setFile(data.getDataFile());
-            item.setTime();
+            item.setTime(data.getDateTime());
             body.add(item, "wrap, w 100::80%");
         }
         repaint();
@@ -163,24 +224,24 @@ public class Chat_Body extends javax.swing.JPanel {
         if (data.getMessageType() == MessageType.TEXT) {
             Chat_Right item = new Chat_Right();
             item.setText(data.getText());
-            item.setTime();
+            item.setTime(data.getDateTime());
             body.add(item, "wrap,al right, w 100::80%");
         } else if (data.getMessageType() == MessageType.EMOJI) {
             Chat_Right item = new Chat_Right();
             item.setEmoji(Emogi.getInstance().getEmoji(Integer.valueOf(data.getText())).getIcon());
-            item.setTime();
+            item.setTime(data.getDateTime());
             body.add(item, "wrap,al right, w 100::80%");
         } else if (data.getMessageType() == MessageType.IMAGE) {
             Chat_Right item = new Chat_Right();
             item.setText("");
             item.setImage(data.getDataImage());
-            item.setTime();
+            item.setTime(data.getDateTime());
             body.add(item, "wrap,al right, w 100::80%");
         } else if (data.getMessageType() == MessageType.FILE) {
             Chat_Right item = new Chat_Right();
             item.setText("");
             item.setFile(data.getDataFile());
-            item.setTime();
+            item.setTime(data.getDateTime());
             body.add(item, "wrap,al right, w 100::80%");
         }
         repaint();
@@ -204,7 +265,7 @@ public class Chat_Body extends javax.swing.JPanel {
         body.repaint();
         body.revalidate();
     }
-    
+
     public void addDate(Timestamp dateTime) {
         Chat_Date item = new Chat_Date();
         item.setDate(dateTime);
@@ -216,15 +277,26 @@ public class Chat_Body extends javax.swing.JPanel {
     public void clearChat() {
         body.removeAll();
         sp.setBackground(Color.WHITE);
-        body.setBackground( Color.WHITE);
+        body.setBackground(Color.WHITE);
         repaint();
         revalidate();
     }
-    
+
+    private String getAvataPath(int uID) {
+
+        List<Model_User_Account> listu = Service.getInstance().getListUser();
+        for (Model_User_Account u : listu) {
+            if (u.getUserID() == uID) {
+                return PATH_FILE + uID + u.getUserName() + "avata.jpg";
+            }
+        }
+        return "";
+    }
+
     public void loadData(int UID) {
         String toID = String.valueOf(UID);
         String youID = String.valueOf(Service.getInstance().getUser().getUserID());
-        String id = toID + "@"+ youID;
+        String id = toID + "@" + youID;
         Service.getInstance().getClient().emit("list_data_user", id);
     }
 

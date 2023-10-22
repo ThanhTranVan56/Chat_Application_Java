@@ -137,6 +137,14 @@ public class Menu_left extends javax.swing.JPanel {
                 }
             }
 
+            @Override
+            public void logout() {
+                userAccount.clear();
+                group.clear();
+                menuList.removeAll();
+                refreshMenuList();
+            }
+
         });
         showMessage();
     }

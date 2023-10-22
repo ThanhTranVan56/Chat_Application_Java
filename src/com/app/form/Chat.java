@@ -73,8 +73,6 @@ public class Chat extends javax.swing.JPanel {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 String date1 = dateFormat.format(datetime);
                 String date2 = dateFormat.format(nextDateTime);
-                System.out.println(date1);
-                System.out.println(date2);
                 int comparison = date1.compareTo(date2);
                 if (comparison < 0) {
                     chatBody.addDate(date1);

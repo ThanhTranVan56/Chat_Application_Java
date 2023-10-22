@@ -58,11 +58,9 @@ public class Item_Group extends javax.swing.JPanel {
                         public void call(Object... os) {
                             boolean isaction = (boolean) os[0];
                             if (isaction) {
-                                System.out.println(isaction);
                                 PublicEvent.getInstance().getEventMain().selectGroup(group);
                                 PublicEvent.getInstance().getEventMenuRight().setMemberIn(true,group.getGroupName());
                             } else {
-                                System.out.println(isaction);
                                 PublicEvent.getInstance().getEventMain().waitGroup();
                             }
                         }
